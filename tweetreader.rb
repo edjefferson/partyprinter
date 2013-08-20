@@ -82,7 +82,7 @@ end
 def tube_tweet(status)
   statuses = {}
   tubestatus = Tube::Status.new
-  status.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
+  tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
   Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
 end
 
