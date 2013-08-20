@@ -88,7 +88,7 @@ while true
         print_tube_status(tweet.id,Tubestatus.find(tweet.id.to_i).statuses,tweet.created_at)
         
       elsif tweet.text.match(/^bardscene.*/)
-
+        puts "bardy"
         print_bard_scene(Bardscene.find(status.text.split[1].join))
 
       else
