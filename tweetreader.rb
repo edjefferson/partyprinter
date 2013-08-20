@@ -30,7 +30,6 @@ end
 
 def read_tweet(status)
   
-  puts status.urls.inspect
   if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && Tweet.exists?(status.id.to_i) == nil
     image_urls = []
     status.media.each do |media|
