@@ -35,6 +35,7 @@ end
 def read_tweet(status)
   
   if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && Tweet.exists?(status.id.to_i) == nil
+    image_urls = []
     if status.text.match(/@partyprinter tubestatus/)
       tube_tweet(status)
     else
@@ -57,7 +58,6 @@ def read_tweet(status)
 end
 
 def standard_tweet(status)
-  image_urls = []
   status.media.each do |media|
     if image_check(media.media_url)
       image_urls << media.media_url
