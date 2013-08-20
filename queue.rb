@@ -9,8 +9,8 @@ include ActionView::Helpers::TextHelper
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
-printer = Microprinter.new
-imageprinter = ImageMicroprinter.new
+@printer = Microprinter.new
+@imageprinter = ImageMicroprinter.new
 
 class Tweet < ActiveRecord::Base
 end
@@ -23,44 +23,44 @@ def print_tweet(text, screen_name, name, created_at, images)
 
   puts "printing tweet"
 
-  printer.set_underline_off
-  printer.set_font_weight_normal
+  @printer.set_underline_off
+  @printer.set_font_weight_normal
 
   puts created_at
-  printer.print_line "#{created_at}"
-  printer.print_line ""
+  @printer.print_line "#{created_at}"
+  @printer.print_line ""
 
-  printer.set_underline_on
-  printer.set_font_weight_bold
+  @printer.set_underline_on
+  @printer.set_font_weight_bold
 
   puts "@#{screen_name} (#{name}) says:"
-  printer.print_line "@#{screen_name} (#{name}) says:"
-  printer.print_line ""
+  @printer.print_line "@#{screen_name} (#{name}) says:"
+  @printer.print_line ""
 
-  printer.set_underline_off
-  printer.set_font_weight_normal
+  @printer.set_underline_off
+  @printer.set_font_weight_normal
   
   puts text
-  printer.print_line word_wrap(text, line_width: 46)
-  printer.print_line ""
+  @printer.print_line word_wrap(text, line_width: 46)
+  @printer.print_line ""
   
   images.each do |url|
-    imageprinter.print_image(url, true, 0, 5)
+    @imageprinter.print_image(url, true, 0, 5)
   end
 
-  printer.feed_and_cut
+  @printer.feed_and_cut
 end
 
 def print_tube_status(tweet_id, statuses, created_at)
 
   puts created_at
-  printer.print_line "#{created_at}"
+  @printer.print_line "#{created_at}"
 
   statuses.each do |linestatus|
-    printer.print_line "#{linestatus[0]}: #{linestatus[1]}"
+    @printer.print_line "#{linestatus[0]}: #{linestatus[1]}"
   end
 
-  printer.feed_and_cut
+  @printer.feed_and_cut
 
 end
 
