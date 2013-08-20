@@ -84,12 +84,12 @@ while true
   unprinted_items = Tweet.where("printed = 0").order("created_at ASC")
   if unprinted_items.size > 0
     unprinted_items.each do |tweet|
-      if tweet.text == "tubestatus".join
+      if tweet.text == "tubestatus"
         print_tube_status(tweet.id,Tubestatus.find(tweet.id.to_i).statuses,tweet.created_at)
         
-      elsif status.text.match(/@partyprinter bardscene.*/)
+      elsif tweet.text.match(/^bardscene.*/)
 
-        print_bard_scene(Bardscene.find(status.text.split[3].join))
+        print_bard_scene(Bardscene.find(status.text.split[1].join))
 
       else
         
