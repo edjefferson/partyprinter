@@ -120,7 +120,17 @@ puts "checking stream"
 twitter_authorisation(TweetStream)
 client = TweetStream::Client.new
 
+@client.on_error do |message|
+  # Log your error message somewhere
+  puts "ERROR: #{message}"
+end
+@client.on_limit do |skip_count|
+  # do something
+  puts "RATE LIMITED LOL"
+end
+
 client.userstream do |status|
+  puts status.text
   read_tweet(status)
 end
 
