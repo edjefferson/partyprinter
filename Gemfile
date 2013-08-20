@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'twitter'
+gem 'tweetstream'
+gem 'fastimage'
+gem 'pg'
+gem 'actionpack'
+gem 'activerecord'
