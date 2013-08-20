@@ -77,7 +77,7 @@ def print_bard_scene(scene)
   @printer.print_line scene.title
   @printer.set_underline_off
   scene.contents.each do |line|
-    if line.match(/^  [^a-z]*.\./.*)
+    if line.match(/^  [^a-z]*.\..*/)
       words = line.gsub(/^  [^a-z]*.\./,"")
       name = line.gsub(words,"")
       @printer.set_font_weight_bold
