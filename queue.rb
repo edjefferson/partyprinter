@@ -70,7 +70,7 @@ while true
   if unprinted_items.size > 0
     unprinted_items.each do |tweet|
       if tweet.text == "tubestatus"
-        print_tube_status(tweet.id,Tubestatus.find(tweet.id).statuses)
+        print_tube_status(tweet.id,Tubestatus.find(tweet.id.to_i).statuses)
         Tubestatus.destroy(tweet.id)
       else
         print_tweet(tweet.text,tweet.screen_name,tweet.name,tweet.created_at,tweet.images)
