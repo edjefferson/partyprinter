@@ -9,12 +9,17 @@ include ActionView::Helpers::TextHelper
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
+printer = Microprinter.new
+imageprinter = ImageMicroprinter.new
+
 class Tweet < ActiveRecord::Base
 end
 
+class Tubestatus < ActiveRecord::Base
+end
+
 def print_tweet(text, screen_name, name, created_at, images)
-  printer = Microprinter.new
-  imageprinter = ImageMicroprinter.new
+  
 
   puts "printing tweet"
 
@@ -46,14 +51,33 @@ def print_tweet(text, screen_name, name, created_at, images)
   printer.feed_and_cut
 end
 
+def print_tube_status(tweet_id)
+
+  puts created_at
+  printer.print_line "#{created_at}"
+
+  status.each do |linestatus|
+    printer.print_line linestatus
+  end
+
+  printer.feed_and_cut
+
+end
+
 while true
   puts "checking queue"
   unprinted_items = Tweet.where("printed = 0").order("created_at ASC")
   if unprinted_items.size > 0
     unprinted_items.each do |tweet|
-      print_tweet(tweet.text,tweet.screen_name,tweet.name,tweet.created_at,tweet.images)
-      tweet.printed = 1
-      tweet.save
+      if tweet.text == "tubestatus"
+        print_tube_status(tweet.id,Tubestatus.find(tweet.id).statuses)
+        Tubestatus.destroy(tweet.id)
+      else
+        print_tweet(tweet.text,tweet.screen_name,tweet.name,tweet.created_at,tweet.images)
+        
+      end
+        tweet.printed = 1
+        tweet.save
     end
   else
     sleep 5

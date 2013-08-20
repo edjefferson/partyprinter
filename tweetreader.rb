@@ -3,10 +3,14 @@ require 'tweetstream'
 require 'fastimage'
 require 'pg'
 require 'active_record'
+require 'tube/status'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
 class Tweet < ActiveRecord::Base
+end
+
+class Tubestatus < ActiveRecord::Base
 end
 
 def twitter_authorisation(twitter_instance)
@@ -31,22 +35,14 @@ end
 def read_tweet(status)
   
   if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && Tweet.exists?(status.id.to_i) == nil
-    image_urls = []
-    status.media.each do |media|
-      if image_check(media.media_url)
-        image_urls << media.media_url
-      end
-    end
-
-    status.urls.each do |url|
-      if image_check(url.expanded_url)
-        image_urls << url.expanded_url
-      end
+    if status.text.match(/@partyprinter tubestatus/)
+      tube_tweet(status)
+    else
+      standard_tweet(status)
     end
 
     puts "reading tweet #{status.text}"
-    Tweet.create(:id => status.id.to_s, :text => status.text.gsub(/^@partyprinter /,""), :name => status.user.name, :screen_name => status.user.screen_name, :created_at => status.created_at, :images => image_urls, :printed => "0")
-    
+    Tweet.create(:id => status.id.to_s, :text => "status.text.gsub(/^@partyprinter /,"""), :name => status.user.name, :screen_name => status.user.screen_name, :created_at => status.created_at, :images => image_urls, :printed => "1")
     
     begin
       @tweeter.follow(status.user.screen_name)
@@ -58,6 +54,36 @@ def read_tweet(status)
     end
   end
   
+end
+
+def standard_tweet(status)
+  image_urls = []
+  status.media.each do |media|
+    if image_check(media.media_url)
+      image_urls << media.media_url
+    end
+  end
+
+  status.urls.each do |url|
+    if image_check(url.expanded_url)
+      image_urls << url.expanded_url
+    end
+  end
+
+end
+
+def extend_line_name(name)
+  while name.length < 15
+    name = " " + name
+  end
+  return name
+end
+
+def tube_tweet(status)
+  statuses = {}
+  tubestatus = Tube::Status.new
+  status.lines.each {|line| statuses << [extend_line_name(line.name), line.status]
+  Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
 end
 
 def get_recent_x_replies(x)
