@@ -73,9 +73,21 @@ def print_tube_status(tweet_id, statuses, created_at)
 end
 
 def print_bard_scene(scene)
-  puts scene.title
+  @printer.set_underline_on
+  @printer.print_line scene.title
+  @printer.set_underline_off
   scene.contents.each do |line|
-    puts line
+    if line.match(/^  [^a-z]*.\./.*)
+      words = line.gsub(/^  [^a-z]*.\./,"")
+      name = line.gsub(words,"")
+      @printer.set_font_weight_bold
+      @printer.print name
+      @printer.set_font_weight_normal
+      @printer.print " #{words}\n"
+
+    else
+      @printer.print_line line
+    end
   end
 end
 
