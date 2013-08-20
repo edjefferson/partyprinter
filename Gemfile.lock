@@ -54,6 +54,8 @@ GEM
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
+    rmagick (2.13.2)
+    serialport (1.1.0)
     simple_oauth (0.2.0)
     thread_safe (0.1.2)
       atomic
@@ -78,5 +80,7 @@ DEPENDENCIES
   activerecord
   fastimage
   pg
+  rmagick
+  serialport
   tweetstream
   twitter
