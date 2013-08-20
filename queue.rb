@@ -57,12 +57,13 @@ end
 def print_tube_status(tweet_id, statuses, created_at)
 
   puts created_at
-  @printer.print_line "Tube status at #{created_at}"
   @printer.set_underline_on
+  @printer.print_line "Tube status at #{created_at}"
+  @printer.set_underline_off
 
   statuses.each do |linestatus|
     @printer.set_font_weight_bold
-    @printer.print "#{linestatus[0]}:\n"
+    @printer.print "#{linestatus[0]}:"
     @printer.set_font_weight_normal
     @printer.print " #{linestatus[1]}\n"
   end
