@@ -38,6 +38,8 @@ def read_tweet(status)
     image_urls = []
     if status.text.match(/@partyprinter tubestatus/)
       tube_tweet(status)
+    elsif status.text.match(/@partyprinter bardscene.*/)
+      bard_tweet(status)
     else
       standard_tweet(status)
     end
@@ -85,6 +87,10 @@ def tube_tweet(status)
   tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
   Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
 end
+
+def bard_tweet(status)
+end
+
 
 def get_recent_x_replies(x)
   @tweeter = twitter_authorisation(Twitter)

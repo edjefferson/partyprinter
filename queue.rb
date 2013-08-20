@@ -18,6 +18,9 @@ end
 class Tubestatus < ActiveRecord::Base
 end
 
+class Bardscene < ActiveRecord::Base
+end
+
 def print_tweet(text, screen_name, name, created_at, images)
   
 
@@ -65,7 +68,15 @@ def print_tube_status(tweet_id, statuses, created_at)
   end
 
   @printer.feed_and_cut
+  Tubestatus.destroy(tweet_id)
 
+end
+
+def print_bard_scene(scene)
+  puts scene.title
+  scene.contents.each do |line|
+    puts line
+  end
 end
 
 while true
@@ -73,10 +84,15 @@ while true
   unprinted_items = Tweet.where("printed = 0").order("created_at ASC")
   if unprinted_items.size > 0
     unprinted_items.each do |tweet|
-      if tweet.text == "tubestatus"
+      if tweet.text == "tubestatus".join
         print_tube_status(tweet.id,Tubestatus.find(tweet.id.to_i).statuses,tweet.created_at)
-        Tubestatus.destroy(tweet.id)
+        
+      elsif status.text.match(/@partyprinter bardscene.*/)
+
+        print_bard_scene(Bardscene.find(status.text.split[3].join))
+
       else
+        
         print_tweet(tweet.text,tweet.screen_name,tweet.name,tweet.created_at,tweet.images)
         
       end
