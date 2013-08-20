@@ -80,7 +80,7 @@ def extend_line_name(name)
 end
 
 def tube_tweet(status)
-  statuses = {}
+  statuses = []
   tubestatus = Tube::Status.new
   tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
   Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
