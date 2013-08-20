@@ -42,7 +42,7 @@ def read_tweet(status)
     end
 
     puts "reading tweet #{status.text}"
-    Tweet.create(:id => status.id.to_s, :text => "status.text.gsub(/^@partyprinter /,"""), :name => status.user.name, :screen_name => status.user.screen_name, :created_at => status.created_at, :images => image_urls, :printed => "1")
+    Tweet.create(:id => status.id.to_s, :text => "status.text.gsub(/^@partyprinter /,"""), :name => status.user.name, :screen_name => status.user.screen_name, :created_at => status.created_at, :images => image_urls, :printed => "0")
     
     begin
       @tweeter.follow(status.user.screen_name)
@@ -82,7 +82,7 @@ end
 def tube_tweet(status)
   statuses = {}
   tubestatus = Tube::Status.new
-  status.lines.each {|line| statuses << [extend_line_name(line.name), line.status]
+  status.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
   Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
 end
 

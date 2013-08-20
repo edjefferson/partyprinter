@@ -51,13 +51,13 @@ def print_tweet(text, screen_name, name, created_at, images)
   printer.feed_and_cut
 end
 
-def print_tube_status(tweet_id)
+def print_tube_status(tweet_id, statuses)
 
   puts created_at
   printer.print_line "#{created_at}"
 
-  status.each do |linestatus|
-    printer.print_line linestatus
+  statuses.each do |linestatus|
+    printer.print_line "#{linestatus[0]}: #{linestatus[1]}"
   end
 
   printer.feed_and_cut
