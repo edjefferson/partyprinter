@@ -69,7 +69,7 @@ end
 
 
 def read_tweet(status)
-  if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && status.id > Tweet.maximum(:id)
+  if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && Tweet.exists?(status.id.to_i) == false
     image_urls = []
     status.media.each do |media|
       if image_check(media.media_url)
@@ -93,7 +93,7 @@ def read_tweet(status)
     
     begin
       @tweeter.follow(status.user.screen_name)
-      @tweeter.retweet(status.id)
+      #@tweeter.retweet(status.id)
     rescue
       puts $!, $@
       puts "mo rate limit mo problems, not followed or retweeted :("
