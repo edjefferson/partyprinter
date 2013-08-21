@@ -18,10 +18,8 @@ class Tubestatus < ActiveRecord::Base
 
   def print
 
-
-    puts created_at
     @printer.set_underline_on
-    @printer.print_line "Tube status at #{created_at}"
+    @printer.print_line "Tube status at #{self.created_at}"
     @printer.set_underline_off
 
     self.statuses.each do |linestatus|
