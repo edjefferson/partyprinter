@@ -1,4 +1,6 @@
-require './printer'
+require './tweetreader'
+require './queue'
+
 
 task :fetch_tweets do |t|
   TweetReader.new.fetch_tweets
