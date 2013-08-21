@@ -69,8 +69,7 @@ class Tubestatus < ActiveRecord::Base
   end
 
   def print
-    puts self
-    puts self.inspect
+
 
     @printer = Microprinter.new
     @imageprinter = ImageMicroprinter.new
@@ -87,7 +86,7 @@ class Tubestatus < ActiveRecord::Base
     end
 
     @printer.feed_and_cut
-    Tubestatus.destroy(tweet_id)
+    Tubestatus.destroy(self.id)
   end
 
 end
@@ -147,8 +146,12 @@ class Queue
 
 
   def check_for_new
+    "puts checking feed"
     unprinted_items.each do |item|
       get_format(item).print
+      item.printed = 1
+      item.save
+
     end
   end
 end
