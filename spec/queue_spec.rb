@@ -6,18 +6,18 @@ require 'spec_helper'
 describe Queue do
   before(:each) do
     @queue = Queue.new
-    @testitem = Tweet.new
+    @tweet = Tweet.new
   end
 
   it "should convert tweet time to local time" do
 
-    expect(@queue.localtime("2013-08-21 16:53:53 UTC").to eq("bardscene")
-  end
-
-
+    expect(Time.parse(@tweet.localtime("2013-08-21 16:53:53 UTC")).class).to eq(Time)
 
   end
 
+
+
+  
   it "should detect the print format of the item" do
     Tubestatus.stub(:find) { "tubestatus" }
     Bardscene.stub(:find) { "bardscene" }
