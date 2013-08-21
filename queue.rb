@@ -146,12 +146,15 @@ class Queue
 
 
   def check_for_new
-    "puts checking feed"
-    unprinted_items.each do |item|
-      get_format(item).print
-      item.printed = 1
-      item.save
+    while true
+      "puts checking feed"
+      unprinted_items.each do |item|
+        get_format(item).print
+        item.printed = 1
+        item.save
 
+      end
+      return true
     end
   end
 end
