@@ -16,7 +16,7 @@ class Tubestatus < ActiveRecord::Base
     Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
   end
 
-  def print(item)
+  def print
 
 
     puts created_at
@@ -24,7 +24,7 @@ class Tubestatus < ActiveRecord::Base
     @printer.print_line "Tube status at #{created_at}"
     @printer.set_underline_off
 
-    statuses.each do |linestatus|
+    self.statuses.each do |linestatus|
       @printer.set_font_weight_bold
       @printer.print "#{linestatus[0]}:"
       @printer.set_font_weight_normal
