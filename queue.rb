@@ -13,6 +13,10 @@ require 'time'
 
 class Tweet < ActiveRecord::Base
   def localtime(time)
+    puts Time.parse
+    puts Time.parse(time)
+    puts Time.parse(time).getlocal
+    puts Time.parse(time).getlocal.strftime "%Y-%m-%d %H:%M:%S %z"
     Time.parse(time).getlocal.strftime "%Y-%m-%d %H:%M:%S %z"
   end
 
