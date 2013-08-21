@@ -12,5 +12,7 @@ task :stream_tweets do |t|
 end
 
 task :check_for_new do |t|
-  Queue.new.check_for_new
+  while true
+    Queue.new.check_for_new
+  end
 end
