@@ -147,7 +147,7 @@ class Queue
 
   def check_for_new
 
-    "puts checking feed"
+    puts "puts checking feed"
     unprinted_items.each do |item|
       get_format(item).print
       item.printed = 1
