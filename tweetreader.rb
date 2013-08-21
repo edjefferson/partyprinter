@@ -4,16 +4,11 @@ require 'fastimage'
 require 'pg'
 require 'active_record'
 require 'tube/status'
-
-
+require './tubestatus'
 
 class Tweet < ActiveRecord::Base
 end
 
-class Tubestatus < ActiveRecord::Base
-  def process(tweet)
-  end
-end
 
 class Bardscene < ActiveRecord::Base
   def process(tweet)

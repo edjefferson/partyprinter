@@ -1,36 +1,16 @@
-require './microprinter'
-require './imagemicroprinter'
+
 require 'open-uri'
 require 'pg'
 require 'active_record'
 require 'action_view'
 include ActionView::Helpers::TextHelper
 
+require './microprinter'
+require './imagemicroprinter'
+require './tubestatus'
+
 class Tweet < ActiveRecord::Base
-end
-
-class Tubestatus < ActiveRecord::Base
-end
-
-class Bardscene < ActiveRecord::Base
-end
-
-class Queue
-  
-
-  def initialize
-    ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
-    
-    @printer = Microprinter.new
-    @imageprinter = ImageMicroprinter.new
-
-  end
-
-
-
-  def print_tweet(text, screen_name, name, created_at, images)
-    
-
+  def print
     puts "printing tweet"
 
     @printer.set_underline_off
@@ -59,26 +39,13 @@ class Queue
     end
 
     @printer.feed_and_cut
-  end
-
-  def print_tube_status(tweet_id, statuses, created_at)
-
-    puts created_at
-    @printer.set_underline_on
-    @printer.print_line "Tube status at #{created_at}"
-    @printer.set_underline_off
-
-    statuses.each do |linestatus|
-      @printer.set_font_weight_bold
-      @printer.print "#{linestatus[0]}:"
-      @printer.set_font_weight_normal
-      @printer.print " #{linestatus[1]}\n"
-    end
-
-    @printer.feed_and_cut
-    Tubestatus.destroy(tweet_id)
 
   end
+end
+
+
+
+class Bardscene < ActiveRecord::Base
 
   def print_bard_scene(scene)
     @printer.set_underline_on
@@ -102,29 +69,35 @@ class Queue
     @printer.feed_and_cut
   end
 
-  def check_queue
-    while true
-      puts "checking queue"
-      unprinted_items = Tweet.where("printed = 0").order("created_at ASC")
-      if unprinted_items.size > 0
-        unprinted_items.each do |tweet|
-          if tweet.text == "tubestatus"
-            print_tube_status(tweet.id,Tubestatus.find(tweet.id.to_i).statuses,tweet.created_at)
-            
-          elsif tweet.text.match(/^bardscene.*/)
-            print_bard_scene(Bardscene.find(tweet.text.split[1]))
+end
 
-          else
-            
-            print_tweet(tweet.text,tweet.screen_name,tweet.name,tweet.created_at,tweet.images)
-            
-          end
-            tweet.printed = 1
-            tweet.save
-        end
-      else
-        sleep 5
-      end
+class Queue
+
+  def initialize
+    
+    ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+  end
+
+  def unprinted_items
+    Tweet.where("printed = 0").order("created_at ASC")
+  end
+
+  def get_format(item)
+    if item.text == "tubestatus"
+      Tubestatus.find(item.id)
+    elsif item.text.match(/^bardscene.*/)
+      Bardscene.find(Bardscene.find(tweet.text.split[1]))
+    else
+      item
+    end
+  end
+
+
+  def check_for_new
+    @printer = Microprinter.new
+    @imageprinter = ImageMicroprinter.new
+    unprinted_items.each do |item|
+      get_format(item).print
     end
   end
 end
