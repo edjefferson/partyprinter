@@ -115,6 +115,8 @@ end
 class Queue
 
   def initialize
+    @printer = Microprinter.new
+    @imageprinter = ImageMicroprinter.new
     
     ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
   end
