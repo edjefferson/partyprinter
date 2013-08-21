@@ -9,11 +9,11 @@ class Tubestatus < ActiveRecord::Base
     return name
   end
 
-  def process(tweet)
+  def process(item)
     statuses = []
     tubestatus = Tube::Status.new
     tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
-    Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
+    Tubestatus.create(:id => item.id.to_s, :statuses => statuses)
   end
 
   def print
