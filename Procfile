@@ -1,1 +1,1 @@
-bundle exec ruby tweetreader.rb 
+bundle exec rake stream_tweets

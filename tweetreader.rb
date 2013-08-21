@@ -5,121 +5,146 @@ require 'pg'
 require 'active_record'
 require 'tube/status'
 
-ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+
 
 class Tweet < ActiveRecord::Base
 end
 
 class Tubestatus < ActiveRecord::Base
-end
-
-def twitter_authorisation(twitter_instance)
-  twitter_instance.configure do |config|
-    config.consumer_key = ENV['YOUR_CONSUMER_KEY']
-    config.consumer_secret = ENV['YOUR_CONSUMER_SECRET']
-    config.oauth_token = ENV['YOUR_OAUTH_TOKEN']
-    config.oauth_token_secret = ENV['YOUR_OAUTH_TOKEN_SECRET']
+  def process(tweet)
   end
-  return twitter_instance
 end
 
-def image_check(image_url)
-  if FastImage.type(image_url) != nil
-    return true
+class Bardscene < ActiveRecord::Base
+  def process(tweet)
   end
 end
 
 
+class TweetReader
 
+  def initialize
+    ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+  end
+#connect to twitter  
 
-def read_tweet(status)
-  
-  if status.text.match(/^@partyprinter.*/) && status.user.id != 1678701920 && Tweet.exists?(status.id.to_i) == nil
-    image_urls = []
-    if status.text.match(/@partyprinter tubestatus/)
-      tube_tweet(status)
-    elsif status.text.match(/@partyprinter bardscene.*/)
-      bard_tweet(status)
-    else
-      standard_tweet(status)
-    end
-
-    puts "reading tweet #{status.text}"
-    Tweet.create(:id => status.id.to_s, :text => status.text.gsub(/^@partyprinter /,""), :name => status.user.name, :screen_name => status.user.screen_name, :created_at => status.created_at, :images => image_urls, :printed => "0")
+  def twitter_authorisation(twitter_instance)
+      twitter_instance.configure do |config|
+        config.consumer_key = ENV['YOUR_CONSUMER_KEY']
+        config.consumer_secret = ENV['YOUR_CONSUMER_SECRET']
+        config.oauth_token = ENV['YOUR_OAUTH_TOKEN']
+        config.oauth_token_secret = ENV['YOUR_OAUTH_TOKEN_SECRET']
+      end
+      return twitter_instance
     
-    begin
-      @tweeter.follow(status.user.screen_name)
-      @tweeter.retweet(status.id)
-    rescue
-      puts $!, $@
-      puts "mo rate limit mo problems, not followed or retweeted :("
+  end
+#get tweets
 
+  def get_recent_x_replies(x)
+    recent_tweets = []
+    @tweeter = twitter_authorisation(Twitter)
+    @tweeter.mentions_timeline[0..(x-1)].reverse
+  end
+
+#check if already posted
+
+  def check_if_reply_and_not_already_read(tweet)
+    if tweet.text.match(/^@partyprinter.*/) && tweet.user.id != 1678701920 && Tweet.exists?(tweet.id.to_i) == nil
+      return true
+    end
+
+  end
+
+#determine type of tweet  
+
+  def check_tweet_type(tweet)
+   if tweet.text.match(/@partyprinter tubestatus/)
+      Tubestatus.new.process(tweet)
+    elsif tweet.text.match(/@partyprinter bardscene.*/)
+      Bardscene.new.process(tweet)
     end
   end
-  
-end
 
-def standard_tweet(status)
-  status.media.each do |media|
-    if image_check(media.media_url)
-      image_urls << media.media_url
+#get needed info from tweet
+
+
+  def get_images_from(tweet)
+
+    image_urls = []
+
+    tweet.media.each do |m|
+      if FastImage.type(m.media_url)
+        image_urls << m.media_url
+      end
+    end
+
+    tweet.urls.each do |u|
+      if FastImage.type(u.expanded_url)
+        image_urls << u.expanded_url
+      end
+    end
+
+    return image_urls
+
+  end
+
+  def write_to_database(tweet, image_urls=[])
+    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
+  end  
+
+  def check_and_store(tweet)
+    if check_if_reply_and_not_already_read(tweet)
+      check_tweet_type(tweet)
+      write_to_database(tweet, get_images_from(tweet))
     end
   end
 
-  status.urls.each do |url|
-    if image_check(url.expanded_url)
-      image_urls << url.expanded_url
+  def fetch_tweets
+    get_recent_x_replies(5).each do |tweet|
+      check_and_store(tweet)
     end
   end
 
-end
+  def stream_tweets
+    puts "checking stream"
 
-def extend_line_name(name)
-  while name.length < 15
-    name = " " + name
+    twitter_authorisation(TweetStream)
+    client = TweetStream::Client.new
+    
+    client.on_error do |message|
+      # Log your error message somewhere
+      puts "ERROR: #{message}"
+    end
+
+    client.on_limit do |skip_count|
+      # do something
+      puts "RATE LIMITED LOL"
+    end
+
+    client.userstream do |tweet|
+      puts tweet.text
+      check_and_store(tweet)
+      puts "checking stream"
+    end
   end
-  return name
-end
 
-def tube_tweet(status)
-  statuses = []
-  tubestatus = Tube::Status.new
-  tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
-  Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
-end
-
-def bard_tweet(status)
-end
-
-
-def get_recent_x_replies(x)
-  @tweeter = twitter_authorisation(Twitter)
-  @tweeter.mentions_timeline[0..x].reverse.each do |tweet|
-    read_tweet(tweet)
+  def extend_line_name(name)
+    while name.length < 15
+      name = " " + name
+    end
+    return name
   end
+
+  def tube_tweet(status)
+    statuses = []
+    tubestatus = Tube::Status.new
+    tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
+    Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
+  end
+
+  def bard_tweet(status)
+  end
+
+
+
 end
-
-
-puts "checking for recent replies that happened while I was asleep"
-
-get_recent_x_replies(5)
-
-puts "checking stream"
-
-twitter_authorisation(TweetStream)
-client = TweetStream::Client.new
-
-client.on_error do |message|
-  # Log your error message somewhere
-  puts "ERROR: #{message}"
-end
-
-client.on_limit do |skip_count|
-  # do something
-  puts "RATE LIMITED LOL"
-end
-
-client.userstream do |status|
-  read_tweet(status)
-end
-
