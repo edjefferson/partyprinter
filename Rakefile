@@ -1,4 +1,4 @@
-require './twitterreadernew'
+require './tweetreader'
 
 task :fetch_tweets do |t|
   TweetReader.new.fetch_tweets
