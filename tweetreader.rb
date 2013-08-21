@@ -3,7 +3,6 @@ require 'tweetstream'
 require 'fastimage'
 require 'pg'
 require 'active_record'
-require 'tube/status'
 require './tubestatus'
 
 class Tweet < ActiveRecord::Base
@@ -122,24 +121,6 @@ class TweetReader
       puts "checking stream"
     end
   end
-
-  def extend_line_name(name)
-    while name.length < 15
-      name = " " + name
-    end
-    return name
-  end
-
-  def tube_tweet(status)
-    statuses = []
-    tubestatus = Tube::Status.new
-    tubestatus.lines.each {|line| statuses << [extend_line_name(line.name), line.status]}
-    Tubestatus.create(:id => status.id.to_s, :statuses => statuses)
-  end
-
-  def bard_tweet(status)
-  end
-
 
 
 end
