@@ -70,6 +70,7 @@ class Tubestatus < ActiveRecord::Base
 
   def print
     puts self
+    puts self.inspect
 
     @printer = Microprinter.new
     @imageprinter = ImageMicroprinter.new
