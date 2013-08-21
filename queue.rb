@@ -76,7 +76,7 @@ class Tubestatus < ActiveRecord::Base
     @imageprinter = ImageMicroprinter.new
 
     @printer.set_underline_on
-    @printer.print_line "Tube status at #{self.created_at}"
+    @printer.print_line "Tube status at #{Tweet.find(self.id).created_at}"
     @printer.set_underline_off
 
     self.statuses.each do |linestatus|
