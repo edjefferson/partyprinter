@@ -1,3 +1,5 @@
+require 'tube/status'
+
 class Tubestatus < ActiveRecord::Base
 
   def extend_line_name(name)
