@@ -1,4 +1,5 @@
 require 'tube/status'
+require './queue.rb'
 
 class Tubestatus < ActiveRecord::Base
 
