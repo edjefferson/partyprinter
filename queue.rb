@@ -17,6 +17,9 @@ class Tweet < ActiveRecord::Base
   end
 
   def print
+    @printer = Microprinter.new
+    @imageprinter = ImageMicroprinter.new
+
     puts "printing tweet"
 
     @printer.set_underline_off
@@ -66,6 +69,8 @@ class Tubestatus < ActiveRecord::Base
   end
 
   def print
+    @printer = Microprinter.new
+    @imageprinter = ImageMicroprinter.new
 
     @printer.set_underline_on
     @printer.print_line "Tube status at #{self.created_at}"
@@ -89,6 +94,9 @@ end
 class Bardscene < ActiveRecord::Base
 
   def print_bard_scene(scene)
+    @printer = Microprinter.new
+    @imageprinter = ImageMicroprinter.new
+    
     @printer.set_underline_on
     @printer.print_line scene.title
     @printer.set_underline_off
@@ -115,8 +123,7 @@ end
 class Queue
 
   def initialize
-    @printer = Microprinter.new
-    @imageprinter = ImageMicroprinter.new
+
     
     ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
   end
