@@ -1,5 +1,12 @@
 class Tubestatus < ActiveRecord::Base
 
+  def extend_line_name(name)
+    while name.length < 15
+      name = " " + name
+    end
+    return name
+  end
+
   def process(tweet)
     statuses = []
     tubestatus = Tube::Status.new
@@ -8,6 +15,8 @@ class Tubestatus < ActiveRecord::Base
   end
 
   def print(item)
+
+
     puts created_at
     @printer.set_underline_on
     @printer.print_line "Tube status at #{created_at}"
