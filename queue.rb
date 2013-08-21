@@ -69,6 +69,8 @@ class Tubestatus < ActiveRecord::Base
   end
 
   def print
+    puts self
+
     @printer = Microprinter.new
     @imageprinter = ImageMicroprinter.new
 
@@ -93,16 +95,16 @@ end
 
 class Bardscene < ActiveRecord::Base
 
-  def print_bard_scene(scene)
+  def print_bard_scene
     @printer = Microprinter.new
     @imageprinter = ImageMicroprinter.new
-    
+
     @printer.set_underline_on
-    @printer.print_line scene.title
+    @printer.print_line self.title
     @printer.set_underline_off
 
-    @printer.print_line scene.scene_name
-    scene.contents.each do |line|
+    @printer.print_line self.scene_name
+    self.contents.each do |line|
       if line.match(/^  [^a-z]*.\..*/)
         words = line.gsub(/^  [^a-z]*.\./,"")
         name = line.gsub(words,"")
