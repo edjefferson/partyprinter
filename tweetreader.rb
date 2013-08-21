@@ -20,7 +20,6 @@ class TweetReader
 
   def initialize
     ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
-    @tz = TZInfo::Timezone.get(ENV['TZ'])
   end
 #connect to twitter  
 
