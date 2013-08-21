@@ -3,7 +3,9 @@ require 'tweetstream'
 require 'fastimage'
 require 'pg'
 require 'active_record'
+require 'tzinfo'
 require './tubestatus'
+
 
 class Tweet < ActiveRecord::Base
 end
@@ -19,6 +21,7 @@ class TweetReader
 
   def initialize
     ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+    @tz = TZInfo::Timezone.get(ENV['TZ'])
   end
 #connect to twitter  
 
@@ -83,7 +86,7 @@ class TweetReader
   end
 
   def write_to_database(tweet, image_urls=[])
-    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
+    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => @tz.utc_to_local(tweet.created_at), :images => image_urls, :printed => "0")
   end  
 
   def check_and_store(tweet)
