@@ -26,7 +26,7 @@ class Tweet < ActiveRecord::Base
     @printer.set_font_weight_normal
 
     puts self.created_at
-    @printer.print_line "#{localtime(self.created_at)}"
+    @printer.print_line "#{self.created_at}"
     @printer.print_line ""
 
     @printer.set_underline_on
@@ -76,7 +76,7 @@ class Tubestatus < ActiveRecord::Base
     @imageprinter = ImageMicroprinter.new
 
     @printer.set_underline_on
-    @printer.print_line "Tube status at #{self.created_at)}"
+    @printer.print_line "Tube status at #{self.created_at}"
     @printer.set_underline_off
 
     self.statuses.each do |linestatus|
