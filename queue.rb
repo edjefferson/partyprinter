@@ -25,25 +25,25 @@ class Tweet < ActiveRecord::Base
     @printer.set_underline_off
     @printer.set_font_weight_normal
 
-    puts created_at
-    @printer.print_line "#{localtime(created_at)}"
+    puts self.created_at
+    @printer.print_line "#{localtime(self.created_at)}"
     @printer.print_line ""
 
     @printer.set_underline_on
     @printer.set_font_weight_bold
 
-    puts "@#{screen_name} (#{name}) says:"
-    @printer.print_line "@#{screen_name} (#{name}) says:"
+    puts "@#{self.screen_name} (#{self.name}) says:"
+    @printer.print_line "@#{self.screen_name} (#{self.name}) says:"
     @printer.print_line ""
 
     @printer.set_underline_off
     @printer.set_font_weight_normal
     
-    puts text
-    @printer.print_line word_wrap(text, line_width: 46)
+    puts self.text
+    @printer.print_line word_wrap(self.text, line_width: 46)
     @printer.print_line ""
     
-    images.each do |url|
+    self.images.each do |url|
       @imageprinter.print_image(url, true, 0, 5)
     end
 
@@ -76,7 +76,7 @@ class Tubestatus < ActiveRecord::Base
     @imageprinter = ImageMicroprinter.new
 
     @printer.set_underline_on
-    @printer.print_line "Tube status at #{Tweet.new.localtime(Tweet.find(self.id).created_at)}"
+    @printer.print_line "Tube status at #{self.created_at)}"
     @printer.set_underline_off
 
     self.statuses.each do |linestatus|
