@@ -14,6 +14,11 @@ describe TweetReader do
   
   end
 
+  it "should convert tweet time to local time"
+
+
+  end
+
   it "should check the last 5 tweets" do
     allow_message_expectations_on_nil
     @tweetreader.stub(:twitter_authorisation)

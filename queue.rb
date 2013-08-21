@@ -8,8 +8,14 @@ include ActionView::Helpers::TextHelper
 require './microprinter'
 require './imagemicroprinter'
 require './tubestatus'
+require 'time'
+
 
 class Tweet < ActiveRecord::Base
+  def localtime(time)
+    Time.parse(time).getlocal.to_s
+  end
+
   def print
     puts "printing tweet"
 
@@ -17,7 +23,7 @@ class Tweet < ActiveRecord::Base
     @printer.set_font_weight_normal
 
     puts created_at
-    @printer.print_line "#{created_at}"
+    @printer.print_line "#{localtime(created_at)}"
     @printer.print_line ""
 
     @printer.set_underline_on

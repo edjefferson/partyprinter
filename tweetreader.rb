@@ -3,8 +3,6 @@ require 'tweetstream'
 require 'fastimage'
 require 'pg'
 require 'active_record'
-require 'time'
-require 'tzinfo'
 require './tubestatus'
 
 
@@ -87,8 +85,12 @@ class TweetReader
   end
 
   def write_to_database(tweet, image_urls=[])
-    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => @tz.utc_to_local(Time.parse(tweet.created_at)), :images => image_urls, :printed => "0")
-  end  
+    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
+  end
+
+  def timefix(time)
+    @tz.utc_to_local(Time.parse(tweet.created_at)).inspect
+  end
 
   def check_and_store(tweet)
     if check_if_reply_and_not_already_read(tweet)

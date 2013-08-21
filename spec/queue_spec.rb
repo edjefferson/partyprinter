@@ -9,6 +9,15 @@ describe Queue do
     @testitem = Tweet.new
   end
 
+  it "should convert tweet time to local time" do
+
+    expect(@queue.localtime("2013-08-21 16:53:53 UTC").to eq("bardscene")
+  end
+
+
+
+  end
+
   it "should detect the print format of the item" do
     Tubestatus.stub(:find) { "tubestatus" }
     Bardscene.stub(:find) { "bardscene" }
