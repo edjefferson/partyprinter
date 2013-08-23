@@ -1,8 +1,4 @@
 require 'pg'
-require 'active_record'
-
-class Sequence < ActiveRecord::Base
-end
 
 class MicroprinterSequence < Array
 
@@ -44,7 +40,7 @@ class MicroprinterSequence < Array
   NEW_LINE = 0x0A
   
   def initialize
-    @con = PG.open ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
+    @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
   end
 
   def big_sleep
