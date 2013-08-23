@@ -4,9 +4,9 @@ require 'pg'
 require 'active_record'
 
 
-require './microprinter'
-require './imagemicroprinter'
-require './tubestatus'
+require './lib/microprinter'
+require './lib/imagemicroprinter'
+require './lib/formats/tubestatus'
 
 
 

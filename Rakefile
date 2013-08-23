@@ -1,8 +1,9 @@
-require './lib/tweetreader'
-require './lib/queue'
+#require './lib/tweetreader'
+#require './lib/queue'
 require './lib/microprinter'
 require './lib/microprintersequence'
 
+=begin
 
 task :fetch_tweets do |t|
   TweetReader.new.fetch_tweets
@@ -18,7 +19,7 @@ task :check_for_new do |t|
     Queue.new.check_for_new
   end
 end
-
+=end
 task :print do |t|
   a = MicroprinterSequence.new
   b = Microprinter.new

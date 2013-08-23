@@ -3,8 +3,9 @@ require 'tweetstream'
 require 'fastimage'
 require 'pg'
 require 'active_record'
-require './tubestatus'
-require './tweet'
+require './lib/formats/tubestatus'
+
+require './lib/formats/tweet'
 
 
 
