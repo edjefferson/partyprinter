@@ -20,7 +20,7 @@ class Microprinter
 
     unprinted_sequences.each do |sequence|
       print(sequence["sequence"])
-      @con.query "UPDATE sequences SET printed = 1 WHERE id = {#sequence['id']}"
+      @con.query "UPDATE sequences SET printed = 1 WHERE id = #{sequence['id']}"
     end
   end
 

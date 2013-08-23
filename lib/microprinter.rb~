@@ -27,6 +27,7 @@ class Microprinter
   
   def print(sequence)
     sequence.split(",").each do |instruction|
+      step = instruction.to_i
       if instruction == 9999
         sleep 0.01
       elsif instruction == 999
