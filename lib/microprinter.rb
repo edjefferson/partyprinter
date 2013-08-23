@@ -17,7 +17,7 @@ class Microprinter
 
   def check_buffer
     unprinted_sequences = @con.query "SELECT * FROM sequences WHERE printed = 0"
-
+    puts sequence
     unprinted_sequences.each do |sequence|
       print(sequence["sequence"])
       @con.query "UPDATE sequences SET printed = 1 WHERE id = #{sequence['id']}"
