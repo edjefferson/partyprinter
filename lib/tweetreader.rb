@@ -44,29 +44,30 @@ class TweetReader
 
 #determine type of tweet  
 
-  def format_and_queue(tweet)
-  puts tweet.text.class
-  f =
-   if tweet.text.match(/@partyprinter tubestatus/)
-      Tubestatus.new(tweet)
+  def format(tweet)
+    if tweet.text.match(/@partyprinter tubestatus/)
+      Tubestatus
     elsif tweet.text.match(/@partyprinter bardscene.*/)
-      Bardscene.new(tweet)
+      Bardscene
     else
-      Tweet.new(:id => , )
+      Tweet
     end
     
-  f.print
   end
 
 #get needed info from tweet
 
-
+  def write_to_database(tweettype,tweet)
+    tweettype.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
+    tweetype.find(tweet.id).print
+  end
   
 
 
   def check_and_store(tweet)
     if check_if_reply_and_not_already_read(tweet)
-      format_and_queue(tweet)
+      write_to_database(format(tweet),tweet)
+
     end
   end
 
