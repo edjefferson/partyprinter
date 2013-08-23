@@ -2,7 +2,6 @@
 #require './lib/queue'
 require './lib/microprinter'
 require './lib/microprintersequence'
-require './lib/microprintertest'
 
 =begin
 
@@ -22,6 +21,6 @@ task :check_for_new do |t|
 end
 =end
 task :testprint do |t|
-  b = MicroprinterTest.new
+  b = Microprinter.new
   b.testprint
 end
