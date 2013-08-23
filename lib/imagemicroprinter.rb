@@ -1,3 +1,4 @@
+
 require 'RMagick'
 include Magick
 
@@ -71,7 +72,7 @@ class ImageMicroprinter < MicroprinterSequence
       cbuffer = Array.new
       cols.times do |x|
         pixel = image.pixel_color(x, y)
-        ##puts "#{x}\t#{y}\t#{pixel}"
+        #puts "#{x}\t#{y}\t#{pixel}"
         if (pixel.red.to_i == MaxRGB) 
           cbuffer.push(1)
         else
@@ -80,7 +81,7 @@ class ImageMicroprinter < MicroprinterSequence
       end
       lbuffer.push(cbuffer)
       if lbuffer.length == rowlimit
-        ###puts (lbuffer.to_s)
+        #puts (lbuffer.to_s)
         print_image_row(mode, lbuffer)
         lbuffer = Array.new
       end
@@ -119,6 +120,8 @@ class ImageMicroprinter < MicroprinterSequence
         bytes.push(byte_column ^ 255)
       end
     end
+    
+    puts bytes.inspect
     print_image_bytes(mode, bytes)
   end
 end

@@ -8,22 +8,21 @@ class Tweet < ActiveRecord::Base
 
   def print
     @printer = MicroprinterSequence.new
-    @imageprinter = ImageMicroprinter.new
-
+    
     puts "printing tweet"
 
     @printer.set_underline_off
     @printer.set_font_weight_normal
 
-    puts tweet.created_at
+    puts self.created_at
     @printer.print_line "#{self.created_at}"
     @printer.print_line ""
 
     @printer.set_underline_on
     @printer.set_font_weight_bold
 
-    puts "@#{self.user.screen_name} (#{self.user.name}) says:"
-    @printer.print_line "@#{self.user.screen_name} (#{self.user.name}) says:"
+    puts "@#{self.screen_name} (#{self.name}) says:"
+    @printer.print_line "@#{self.screen_name} (#{self.name}) says:"
     @printer.print_line ""
 
     @printer.set_underline_off
@@ -33,11 +32,14 @@ class Tweet < ActiveRecord::Base
     @printer.print_line word_wrap(self.text, line_width: 46)
     @printer.print_line ""
     
-    self.image_urls.each do |url|
-      @imageprinter.print_image(url, true, 0, 5)
+    self.images.each do |url|
+      puts url
+      @printer.print_image(url, true, 0, 5)
     end
 
     @printer.feed_and_cut
+
+    @printer.write_sequence_to_database
 
   end
 end

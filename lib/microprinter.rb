@@ -32,7 +32,7 @@ class Microprinter
       if step == 9999
         sleep 0.01
       elsif step == 999
-        sleep 0.002
+        sleep 0.005
       else
         @sp.putc step
       end

@@ -37,7 +37,10 @@ class TweetReader
 #check if already posted
 
   def check_if_reply_and_not_already_read(tweet)
+
+    puts tweet.text
     if tweet.text.match(/^@partyprinter.*/) && tweet.user.id != 1678701920 && Tweet.exists?(tweet.id.to_i) == nil
+      puts "new"
       return true
     end
 
@@ -87,13 +90,14 @@ class TweetReader
 
   def check_and_store(tweet)
     if check_if_reply_and_not_already_read(tweet)
+      puts format(tweet)
       write_to_database(format(tweet),tweet)
 
     end
   end
 
   def fetch_tweets
-    get_recent_x_replies(25).each do |tweet|
+    get_recent_x_replies(3).each do |tweet|
       check_and_store(tweet)
     end
   end
