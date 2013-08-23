@@ -37,7 +37,7 @@ class MicroprinterTest
   BARCODE_MODE_CODEABAR = 0x06
   BARCODE_MODE_CODE128 = 0x07
 
-  def initialize(port_str = "/dev/cu.usbserial-A1001NFW")  
+  def initialize(port_str = "/dev/ttyACM0")  
     @port_str = port_str 
     baud_rate = 9600
     data_bits = 8
