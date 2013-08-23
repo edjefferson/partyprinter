@@ -24,7 +24,7 @@ task :print do |t|
   a = MicroprinterSequence.new
   b = Microprinter.new
   c = ARGV[0].to_s
-  a.printstring(c)
+  a.stringprint(c)
   a.feed_and_cut(c)
   b.print(a)
 end
