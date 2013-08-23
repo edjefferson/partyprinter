@@ -52,7 +52,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    text.bytes.to_a each do |char|
+    text.bytes.to_a.each do |char|
       push char
     end
   end
