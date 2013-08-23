@@ -143,7 +143,7 @@ class MicroprinterTest
  
   def print(text)
     @sp.print(text)
-    @sp.flush
+    #@sp.flush
     sleep (0.01)
   end
 
@@ -251,7 +251,8 @@ class MicroprinterTest
     @sp.putc "x"
     @sp.putc "x".bytes.to_a[0]
     @sp.print "y"
-    @sp.flush
+    
+    
    print_and_cut("Printer is connected.")
   
   end

@@ -244,11 +244,15 @@ class MicroprinterTest
   end
   
   def stringprint(string)
-    string.bytes.to_a[0] { |byte| push(byte) }
+    string.bytes.to_a { |byte| push(byte) }
   end
   
   def testprint
-    @sp.putc "x".bytes
+    @sp.putc "x"
+    @sp.putc "x".bytes.to_a[0]
+    @sp.print "y"
+    
+    
    print_and_cut("Printer is connected.")
   
   end
