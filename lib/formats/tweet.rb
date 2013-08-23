@@ -4,27 +4,9 @@ include ActionView::Helpers::TextHelper
 
 class Tweet < ActiveRecord::Base
 
-  def get_images_from(tweet)
 
-    image_urls = []
 
-    tweet.media.each do |m|
-      if FastImage.type(m.media_url)
-        image_urls << m.media_url
-      end
-    end
-
-    tweet.urls.each do |u|
-      if FastImage.type(u.expanded_url)
-        image_urls << u.expanded_url
-      end
-    end
-
-    return image_urls
-
-  end
-
-  def print(tweet)
+  def print
     @printer = MicroprinterSequence.new
     @imageprinter = ImageMicroprinter.new
 
@@ -51,7 +33,7 @@ class Tweet < ActiveRecord::Base
     @printer.print_line word_wrap(tweet.text, line_width: 46)
     @printer.print_line ""
     
-    get_images_from(tweet).each do |url|
+    tweet.image_urls.each do |url|
       @imageprinter.print_image(url, true, 0, 5)
     end
 

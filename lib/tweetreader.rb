@@ -27,10 +27,11 @@ class TweetReader
   end
 #get tweets
 
+
   def get_recent_x_replies(x)
-    recent_tweets = []
+    puts "checking last #{x} tweets"
     @tweeter = twitter_authorisation(Twitter)
-    @tweeter.mentions_timeline[0..(x-1)].reverse
+    return @tweeter.mentions_timeline[0..(x-1)].reverse
   end
 
 #check if already posted
@@ -58,8 +59,28 @@ class TweetReader
 #get needed info from tweet
 
   def write_to_database(tweettype,tweet)
-    tweettype.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
-    tweetype.find(tweet.id).print
+    tweettype.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => get_images_from(tweet), :printed => "0")
+    tweettype.find(tweet.id).print
+  end
+
+    def get_images_from(tweet)
+
+    image_urls = []
+
+    tweet.media.each do |m|
+      if FastImage.type(m.media_url)
+        image_urls << m.media_url
+      end
+    end
+
+    tweet.urls.each do |u|
+      if FastImage.type(u.expanded_url)
+        image_urls << u.expanded_url
+      end
+    end
+
+    return image_urls
+
   end
   
 
@@ -72,7 +93,7 @@ class TweetReader
   end
 
   def fetch_tweets
-    get_recent_x_replies(5).each do |tweet|
+    get_recent_x_replies(25).each do |tweet|
       check_and_store(tweet)
     end
   end
