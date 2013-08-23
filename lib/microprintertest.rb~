@@ -1,6 +1,6 @@
 require 'serialport'
 
-class Microprinter 
+class MicroprinterTest
 
   COMMAND = 0x1B
   FULLCUT = 0x69
@@ -244,7 +244,7 @@ class Microprinter
   end
   
   def testprint
-   print_and_cut("pig poop balls)
+   print_and_cut("pig poop balls"")
   
   end
 
