@@ -45,9 +45,6 @@ class MicroprinterSequence < Array
     push("LS")
   end
 
-  def stringprint(string)
-    string.bytes.to_a { |byte| push(byte) }
-  end
 
   # Standard font: 42 characters per line if using 80mm paper  
   def set_character_width_normal
@@ -99,7 +96,7 @@ class MicroprinterSequence < Array
   end
 
   def print_line(text)
-    stringprint("#{text}\n")
+    push("#{text}\n")
     big_sleep
   end
 
@@ -115,10 +112,10 @@ class MicroprinterSequence < Array
   end
 
   def feed() 
-    stringprint("\n")
-    stringprint("\n")
-    stringprint("\n")
-    stringprint("\n")
+    push("\n")
+    push("\n")
+    push("\n")
+    push("\n")
     big_sleep
   end
 
@@ -138,7 +135,7 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_PRINT
     push barcode_mode 
-    stringprint barcode
+    push barcode
     push 0x00
     big_sleep
   end
