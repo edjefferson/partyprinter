@@ -23,7 +23,7 @@ end
 task :print do |t|
   a = MicroprinterSequence.new
   b = Microprinter.new
-  c = ARGV[0].to_s
+  c = "this is my last resort"
   a.stringprint(c)
   a.feed_and_cut
   b.print(a)
