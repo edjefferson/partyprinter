@@ -13,7 +13,9 @@ task :stream_tweets do |t|
   TweetReader.new.stream_tweets
 end
 
-task :print do |t|
-  b = Microprinter.new
-  b.check_buffer
+task :print_buffer do |t|
+  while true
+    b = Microprinter.new
+    b.check_buffer
+  end
 end
