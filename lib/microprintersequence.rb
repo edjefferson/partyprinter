@@ -1,3 +1,9 @@
+require 'pg'
+require 'active_record'
+
+class Sequence < ActiveRecord::Base
+end
+
 class MicroprinterSequence < Array
 
   COMMAND = 0x1B
@@ -36,6 +42,10 @@ class MicroprinterSequence < Array
   BARCODE_MODE_CODE128 = 0x07
 
   NEW_LINE = 0x0A
+  
+  def initialize
+    @con = PG.open ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
+  end
 
   def big_sleep
     push("BS")
@@ -186,4 +196,16 @@ class MicroprinterSequence < Array
     end
     big_sleep
   end
+  
+  def write_sequence_to_database
+    @con.query INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{"1","2",3}',DEFAULT);
+  end
+
+
+  def build_test_sequence
+    print_and_cut("Printer is connected.")
+    write_sequence_to_database
+  end
+
 end
+

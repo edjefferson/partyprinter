@@ -25,6 +25,15 @@ task :testprint do |t|
   b = Microprinter.new
   a = MicroprinterSequence.new
   a.push "I am a horse"
+  a << "I am a horse"
+  a.feed_and_cut
+  b.print(a)
+end
+
+task :testprint2 do |t|
+  b = Microprinter.new
+  a = MicroprinterSequence.new
+  a.push [1,2,3,4,5,6,7,89]
   a.feed_and_cut
   b.print(a)
 end

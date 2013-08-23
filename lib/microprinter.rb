@@ -4,7 +4,7 @@ require 'pg'
 class Microprinter
 
   def initialize(port_str = "/dev/ttyACM0")
-    #@pg.conn = (ENV['DATABASE'])
+    @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
     @port_str = port_str 
     baud_rate = 9600
     data_bits = 8
@@ -14,16 +14,16 @@ class Microprinter
     @sp.sync = true
     sleep(2)
   end
-=begin
+
   def check_buffer
-    unprinted_sequences = pg.query "select * from buffer"
+    unprinted_sequences = @con.query "SELECT * FROM sequences WHERE printed = 0"
 
     unprinted_sequences.each do |sequence|
-      print(sequence)
-      pg.query "delete from buffer"
+      print(sequence["sequence"])
+      @con.query "UPDATE sequences SET printed = 1 WHERE id = {#sequence["id"]}"
     end
   end
-=end
+
   
   def print(sequence)
     sequence.each do |instruction|

@@ -29,3 +29,11 @@ task :testprint do |t|
   a.feed_and_cut
   b.print(a)
 end
+
+task :testprint2 do |t|
+  b = Microprinter.new
+  a = MicroprinterSequence.new
+  a.push [1,2,3,4,5,6,7,8,9]
+  a.feed_and_cut
+  b.print(a)
+end
