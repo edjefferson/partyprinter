@@ -1,4 +1,3 @@
-require 'pg'
 class MicroprinterSequence < Array
 
   COMMAND = 0x1B
@@ -38,18 +37,6 @@ class MicroprinterSequence < Array
 
   NEW_LINE = 0x0A
 
-  def initialize(port_str = "/dev/ttyACM0")
-    @pg.conn #connection details go here
-  end
-
-  def store
-    con.query "insert * into buffer"
-  end
-
-  def flush
-    push("FL")
-  end
-
   def big_sleep
     push("BS")
   end
@@ -59,7 +46,7 @@ class MicroprinterSequence < Array
   end
 
   def stringprint(string)
-    string.split("").each { |char| push(char) }
+    string.split("").each { |char| push(char.to_i) }
   end
 
   # Standard font: 42 characters per line if using 80mm paper  
@@ -77,7 +64,6 @@ class MicroprinterSequence < Array
     push COMMAND
     push PRINT_MODE
     push i
-    flush
   end
   
 
@@ -93,7 +79,6 @@ class MicroprinterSequence < Array
     push COMMAND
     push DOUBLEPRINT 
     push i
-    flush
     big_sleep
   end 
 
@@ -117,12 +102,6 @@ class MicroprinterSequence < Array
     stringprint("#{text}\n")
     big_sleep
   end
- 
-  def print(text)
-    stringprint(text)
-    flush
-    big_sleep
-  end
 
   def feed_and_cut # utility method. 
     set_linefeed_rate 55
@@ -140,21 +119,18 @@ class MicroprinterSequence < Array
     stringprint("\n")
     stringprint("\n")
     stringprint("\n")
-    flush
     big_sleep
   end
 
   def cut()
     push COMMAND
     push FULLCUT
-    flush
     big_sleep
   end
 
   def partial_cut()
     push COMMAND
     push PARTIALCUT
-    flush
     big_sleep
   end
 
@@ -162,9 +138,8 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_PRINT
     push barcode_mode 
-    @sp.print barcode
+    stringprint barcode
     push 0x00
-    flush
     big_sleep
   end
 
@@ -173,7 +148,6 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_HEIGHT
     push height.to_i 
-    flush
     big_sleep
   end
 
@@ -181,7 +155,6 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_WIDTH
     push width
-    flush
     big_sleep
   end
 
@@ -191,7 +164,6 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE 
     push COMMAND_BARCODE_TEXTPOSITION
     push position 
-    flush
     big_sleep
   end
   
@@ -199,7 +171,6 @@ class MicroprinterSequence < Array
     push COMMAND 
     push FEED_RATE 
     push rate 
-    flush
     big_sleep
   end
 
@@ -214,19 +185,8 @@ class MicroprinterSequence < Array
     push datalength/256
     data.each do |x|
       push x 
-      flush
       little_sleep
     end
-    flush
     big_sleep
   end
-
 end
-
-
-m = MicroprinterSequence.new
-
-m.print_line("I get knocked down")
-m.feed_and_cut
-
-puts m.inspect

@@ -4,10 +4,10 @@ require 'fastimage'
 require 'pg'
 require 'active_record'
 require './tubestatus'
+require './tweet'
 
 
-class Tweet < ActiveRecord::Base
-end
+
 
 
 class Bardscene < ActiveRecord::Base
@@ -52,49 +52,25 @@ class TweetReader
 
 #determine type of tweet  
 
-  def check_tweet_type(tweet)
+  def format_and_queue(tweet)
    if tweet.text.match(/@partyprinter tubestatus/)
-      Tubestatus.new.process(tweet)
+      Tubestatus.new(tweet)
     elsif tweet.text.match(/@partyprinter bardscene.*/)
-      Bardscene.new.process(tweet)
+      Bardscene.new(tweet)
+    else
+      Tweet.new(tweet)
     end
   end
 
 #get needed info from tweet
 
 
-  def get_images_from(tweet)
+  
 
-    image_urls = []
-
-    tweet.media.each do |m|
-      if FastImage.type(m.media_url)
-        image_urls << m.media_url
-      end
-    end
-
-    tweet.urls.each do |u|
-      if FastImage.type(u.expanded_url)
-        image_urls << u.expanded_url
-      end
-    end
-
-    return image_urls
-
-  end
-
-  def write_to_database(tweet, image_urls=[])
-    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => image_urls, :printed => "0")
-  end
-
-  def timefix(time)
-    @tz.utc_to_local(Time.parse(tweet.created_at)).inspect
-  end
 
   def check_and_store(tweet)
     if check_if_reply_and_not_already_read(tweet)
-      check_tweet_type(tweet)
-      write_to_database(tweet, get_images_from(tweet))
+      format_and_queue(tweet)
     end
   end
 
