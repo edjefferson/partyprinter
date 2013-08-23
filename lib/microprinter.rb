@@ -30,7 +30,7 @@ class Microprinter
       elsif instruction == "LS"
         sleep 0.002
       else
-        sp.putc instruction
+        @sp.putc instruction
       end
     end
   end
