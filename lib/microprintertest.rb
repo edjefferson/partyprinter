@@ -243,8 +243,16 @@ class MicroprinterTest
     sleep (0.01)
   end
   
+  def stringprint(string)
+    string.bytes.to_a { |byte| push(byte) }
+  end
+  
   def testprint
-   print_and_cut("pig poop balls")
+    @sp.putc "x"
+    @sp.putc "x".bytes.to_a[0]
+    @sp.print "y"
+    @sp.flush
+   print_and_cut("Printer is connected.")
   
   end
 
