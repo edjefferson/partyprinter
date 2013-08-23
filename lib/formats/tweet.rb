@@ -16,24 +16,24 @@ class Tweet < ActiveRecord::Base
     @printer.set_font_weight_normal
 
     puts tweet.created_at
-    @printer.print_line "#{tweet.created_at}"
+    @printer.print_line "#{self.created_at}"
     @printer.print_line ""
 
     @printer.set_underline_on
     @printer.set_font_weight_bold
 
-    puts "@#{tweet.user.screen_name} (#{tweet.user.name}) says:"
-    @printer.print_line "@#{tweet.user.screen_name} (#{tweet.user.name}) says:"
+    puts "@#{self.user.screen_name} (#{self.user.name}) says:"
+    @printer.print_line "@#{self.user.screen_name} (#{self.user.name}) says:"
     @printer.print_line ""
 
     @printer.set_underline_off
     @printer.set_font_weight_normal
     
-    puts tweet.text
-    @printer.print_line word_wrap(tweet.text, line_width: 46)
+    puts self.text
+    @printer.print_line word_wrap(self.text, line_width: 46)
     @printer.print_line ""
     
-    tweet.image_urls.each do |url|
+    self.image_urls.each do |url|
       @imageprinter.print_image(url, true, 0, 5)
     end
 
