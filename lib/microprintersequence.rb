@@ -198,7 +198,7 @@ class MicroprinterSequence < Array
   end
   
   def write_sequence_to_database
-    @con.query INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{"1","2",3}',DEFAULT);
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{"1","2",3}',DEFAULT);"
   end
 
 
