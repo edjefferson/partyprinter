@@ -1,5 +1,7 @@
-require './tweetreader'
-require './queue'
+require './lib/tweetreader'
+require './lib/queue'
+require './lib/microprinter'
+require './lib/microprintersequence'
 
 
 task :fetch_tweets do |t|
