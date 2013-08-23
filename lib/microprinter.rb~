@@ -20,20 +20,24 @@ class Microprinter
 
     unprinted_sequences.each do |sequence|
       print(sequence["sequence"])
-      @con.query "UPDATE sequences SET printed = 1 WHERE id = {#sequence['id']}"
+      @con.query "UPDATE sequences SET printed = 1 WHERE id = #{sequence['id']}"
     end
   end
 
   
   def print(sequence)
+    puts sequence
+    puts sequence.class
     sequence.split(",").each do |instruction|
+      puts instruction
+      puts instruction.class
       step = instruction.to_i
-      if instruction == 9999
+      if step == 9999
         sleep 0.01
-      elsif instruction == 999
+      elsif step == 999
         sleep 0.002
       else
-        @sp.putc instruction
+        @sp.putc step
       end
     end
   end

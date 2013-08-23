@@ -26,14 +26,20 @@ class Microprinter
 
   
   def print(sequence)
+    puts sequence
+    puts sequence.class
     sequence.split(",").each do |instruction|
+      puts instruction
+      puts instruction.class
       step = instruction.to_i
-      if instruction == 9999
+      puts step
+      puts step.class
+      if step == 9999
         sleep 0.01
-      elsif instruction == 999
+      elsif step == 999
         sleep 0.002
       else
-        @sp.putc instruction
+        @sp.putc step
       end
     end
   end
