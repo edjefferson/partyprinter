@@ -45,13 +45,17 @@ class TweetReader
 #determine type of tweet  
 
   def format_and_queue(tweet)
+  puts tweet.text.class
+  f =
    if tweet.text.match(/@partyprinter tubestatus/)
       Tubestatus.new(tweet)
     elsif tweet.text.match(/@partyprinter bardscene.*/)
       Bardscene.new(tweet)
     else
-      Tweet.new(tweet)
+      Tweet.new(:id => , )
     end
+    
+  f.print
   end
 
 #get needed info from tweet

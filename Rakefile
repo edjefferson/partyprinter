@@ -1,10 +1,8 @@
-#require './lib/tweetreader'
-#require './lib/queue'
+require './lib/tweetreader'
 require './lib/microprinter'
 require './lib/microprintersequence'
-require './lib/microprintertest'
+require './lib/imagemicroprinter'
 
-=begin
 
 task :fetch_tweets do |t|
   TweetReader.new.fetch_tweets
@@ -20,12 +18,11 @@ task :check_for_new do |t|
     Queue.new.check_for_new
   end
 end
-=end
+
 task :testprint do |t|
   b = Microprinter.new
   b.check_buffer
 end
-
 
 
 task :testsequence do |t|

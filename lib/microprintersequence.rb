@@ -102,7 +102,6 @@ class MicroprinterSequence < Array
     push COMMAND
     push UNDERLINE
     push i
-    flush
     big_sleep
   end
 

@@ -1,4 +1,4 @@
-
+require './microprintersequence.rb'
 
 class Bardscene < ActiveRecord::Base
 

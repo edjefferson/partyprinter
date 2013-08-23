@@ -41,7 +41,7 @@ class Tweet < ActiveRecord::Base
     @printer.set_font_weight_bold
 
     puts "@#{tweet.user.screen_name} (#{tweet.user.name}) says:"
-    @printer.print_line "@#{tweet.user.screen_name} (#{tweet.user.name}) says:"
+    @printer.print_line "@#{tweet.user.screen_name} (#{tweet.use.name}) says:"
     @printer.print_line ""
 
     @printer.set_underline_off

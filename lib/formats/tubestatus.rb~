@@ -1,4 +1,5 @@
 require 'tube/status'
+require './microprintersequence.rb'
 
 
 class Tubestatus < ActiveRecord::Base

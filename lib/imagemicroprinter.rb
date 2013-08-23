@@ -1,8 +1,7 @@
-require './microprinter.rb'
 require 'RMagick'
 include Magick
 
-class ImageMicroprinter < Microprinter
+class ImageMicroprinter < MicroprinterSequence
 
   # mode = 0: width = 288
   # mode = 1: width = 576
