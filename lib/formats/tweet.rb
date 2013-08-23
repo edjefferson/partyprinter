@@ -1,5 +1,6 @@
-require './microprintersequence.rb'
+require './lib/microprintersequence.rb'
 require 'action_view'
+require 'active_record'
 include ActionView::Helpers::TextHelper
 
 class Tweet < ActiveRecord::Base
@@ -25,7 +26,7 @@ class Tweet < ActiveRecord::Base
   end
 
   def print
-    @printer = Microprinter.new
+    @printer = MicroprinterSequence.new
     @imageprinter = ImageMicroprinter.new
 
     puts "printing tweet"

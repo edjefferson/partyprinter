@@ -4,17 +4,8 @@ require 'fastimage'
 require 'pg'
 require 'active_record'
 require './lib/formats/tubestatus'
-
+require './lib/formats/bardscene'
 require './lib/formats/tweet'
-
-
-
-
-
-class Bardscene < ActiveRecord::Base
-  def process(tweet)
-  end
-end
 
 
 class TweetReader
