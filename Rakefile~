@@ -2,6 +2,7 @@
 #require './lib/queue'
 require './lib/microprinter'
 require './lib/microprintersequence'
+require './lib/microprintertest'
 
 =begin
 
@@ -22,5 +23,8 @@ end
 =end
 task :testprint do |t|
   b = Microprinter.new
-  b.testprint
+  a = MicroprinterSequence.new
+  a.stringprint "I am a horse"
+  a.feed_and_cut
+  b.print(")
 end

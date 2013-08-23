@@ -22,6 +22,9 @@ task :check_for_new do |t|
 end
 =end
 task :testprint do |t|
-  b = MicroprinterTest.new
-  b.testprint
+  b = Microprinter.new
+  a = MicroprinterSequence.new
+  a.stringprint "I am a horse"
+  a.feed_and_cut
+  b.print(a)
 end

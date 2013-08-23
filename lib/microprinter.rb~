@@ -12,6 +12,7 @@ class Microprinter
     parity = SerialPort::NONE
     @sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
     @sp.sync = true
+    sleep(2)
   end
 =begin
   def check_buffer
