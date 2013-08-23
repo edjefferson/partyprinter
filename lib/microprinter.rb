@@ -13,7 +13,7 @@ class Microprinter
     @sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
     @sp.sync = true
   end
-
+  =begin
   def check_buffer
     unprinted_sequences = pg.query "select * from buffer"
 
@@ -22,8 +22,10 @@ class Microprinter
       pg.query "delete from buffer"
     end
   end
-  
+  =end
   def print(sequence)
+    @sp.print "big balls are"
+    @sp.flush
     sequence.each do |instruction|
       if instruction == "BS"
         sleep 0.01
@@ -31,6 +33,8 @@ class Microprinter
         sleep 0.002
       else
         @sp.putc instruction
+        @sp.print "big balls are"
+        @sp.flush
       end
     end
   end
