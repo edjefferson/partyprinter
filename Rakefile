@@ -16,3 +16,12 @@ task :check_for_new do |t|
     Queue.new.check_for_new
   end
 end
+
+task :print ARGV[0] do |t|
+  a = MicroprinterSequence.new
+  b = Microprinter.new
+  c = ARGV[0].to_s
+  a.printstring(c)
+  a.feed_and_cut(c)
+  b.print(a)
+end
