@@ -52,9 +52,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    text.bytes.to_a.each do |char|
-      push char
-    end
+    text.bytes.to_a.each {|char| push char }
   end
     
 
@@ -204,7 +202,7 @@ class MicroprinterSequence < Array
     sequence = self.map!{|step| step.to_i}.join(",")
       
   
-    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'#{sequence}',DEFAULT);"
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{sequence}}',DEFAULT);"
   end
 
 
