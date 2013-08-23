@@ -29,8 +29,6 @@ class Microprinter
         sleep 0.01
       elsif instruction == "LS"
         sleep 0.002
-      elsif instruction == "FL"
-        sp.flush
       else
         sp.putc instruction
       end
