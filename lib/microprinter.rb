@@ -31,6 +31,8 @@ class Microprinter
         sleep 0.01
       elsif instruction == "LS"
         sleep 0.002
+      elsif instruction.class == String
+        @sp.print instruction
       else
         @sp.putc instruction
       end
