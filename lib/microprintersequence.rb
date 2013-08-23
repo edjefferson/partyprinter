@@ -46,7 +46,7 @@ class MicroprinterSequence < Array
   end
 
   def stringprint(string)
-    string.split("").each { |char| push(char.to_i) }
+    string.bytes.to_a { |byte| push(byte) }
   end
 
   # Standard font: 42 characters per line if using 80mm paper  
