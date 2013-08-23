@@ -24,7 +24,8 @@ end
 task :testprint do |t|
   b = Microprinter.new
   a = MicroprinterSequence.new
-  a.stringprint "I am a horse"
+  a.push "I am a horse"
+  a << "I am a horse"
   a.feed_and_cut
   b.print(a)
 end
