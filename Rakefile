@@ -19,7 +19,7 @@ task :check_for_new do |t|
   end
 end
 
-task :print ARGV[0] do |t|
+task :print do |t|
   a = MicroprinterSequence.new
   b = Microprinter.new
   c = ARGV[0].to_s
