@@ -20,19 +20,17 @@ class Microprinter
 
     unprinted_sequences.each do |sequence|
       print(sequence["sequence"])
-      @con.query "UPDATE sequences SET printed = 1 WHERE id = {#sequence['id'']}"
+      @con.query "UPDATE sequences SET printed = 1 WHERE id = {#sequence['id']}"
     end
   end
 
   
   def print(sequence)
-    sequence.each do |instruction|
-      if instruction == "BS"
+    sequence.split(",").each do |instruction|
+      if instruction == 9999
         sleep 0.01
-      elsif instruction == "LS"
+      elsif instruction == 999
         sleep 0.002
-      elsif instruction.class == String
-        @sp.print instruction
       else
         @sp.putc instruction
       end

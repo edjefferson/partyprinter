@@ -26,13 +26,12 @@ class Microprinter
 
   
   def print(sequence)
-    sequence.each do |instruction|
-      if instruction == "BS"
+    sequence.split(",").each do |instruction|
+      step = instruction.to_i
+      if instruction == 9999
         sleep 0.01
-      elsif instruction == "LS"
+      elsif instruction == 999
         sleep 0.002
-      elsif instruction.class == String
-        @sp.print instruction
       else
         @sp.putc instruction
       end

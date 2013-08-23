@@ -30,10 +30,16 @@ task :testprint do |t|
   b.print(a)
 end
 
-task :testprint2 do |t|
+task :testsequence do |t|
   b = Microprinter.new
   a = MicroprinterSequence.new
-  a.push 1,2,3,4,5,6,7,8,9
+  a.push 99,99,99,99,99,99
   a.feed_and_cut
   b.print(a)
 end
+
+task :testsequence do |t|
+  a = MicroprinterSequence.new
+  a.build_test_sequence
+end
+  

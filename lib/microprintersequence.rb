@@ -44,12 +44,19 @@ class MicroprinterSequence < Array
   end
 
   def big_sleep
-    push("BS")
+    push(9999)
   end
 
   def little_sleep
-    push("LS")
+    push(999)
   end
+  
+  def print(text)
+    text.bytes.to_a each do |char|
+      push char
+    end
+  end
+    
 
 
   # Standard font: 42 characters per line if using 80mm paper  
@@ -102,7 +109,7 @@ class MicroprinterSequence < Array
   end
 
   def print_line(text)
-    push("#{text}\n")
+    print("#{text}\n")
     big_sleep
   end
 
@@ -118,10 +125,10 @@ class MicroprinterSequence < Array
   end
 
   def feed() 
-    push("\n")
-    push("\n")
-    push("\n")
-    push("\n")
+    push 10
+    push 10
+    push 10
+    push 10
     big_sleep
   end
 
@@ -141,7 +148,7 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_PRINT
     push barcode_mode 
-    push barcode
+    print barcode
     push 0x00
     big_sleep
   end
@@ -194,7 +201,10 @@ class MicroprinterSequence < Array
   end
   
   def write_sequence_to_database
-    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{'1','2','3'}',DEFAULT);"
+    sequence = self.map!{|step| step.to_i}.join(",")
+      
+  
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'#{sequence}',DEFAULT);"
   end
 
 

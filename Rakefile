@@ -23,17 +23,13 @@ end
 =end
 task :testprint do |t|
   b = Microprinter.new
-  a = MicroprinterSequence.new
-  a.push "I am a horse"
-  a << "I am a horse"
-  a.feed_and_cut
-  b.print(a)
+  b.check_buffer
 end
 
-task :testprint2 do |t|
-  b = Microprinter.new
+
+
+task :testsequence do |t|
   a = MicroprinterSequence.new
-  a.push 99,99,99,99,99,99
-  a.feed_and_cut
-  b.print(a)
+  a.build_test_sequence
 end
+  
