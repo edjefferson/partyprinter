@@ -8,6 +8,7 @@ class Tweet < ActiveRecord::Base
 
   def print
     @printer = MicroprinterSequence.new
+    @imageprinter = ImageMicroprinter.new
     
     puts "printing tweet"
 
@@ -34,7 +35,9 @@ class Tweet < ActiveRecord::Base
     
     self.images.each do |url|
       puts url
-      @printer.print_image(url, true, 0, 5)
+      @imageprinter.print_image(url, true, 0, 5).each do |byte|
+        @printer.push byte
+      end
     end
 
     @printer.feed_and_cut

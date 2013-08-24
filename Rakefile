@@ -19,3 +19,10 @@ task :print_buffer do |t|
     b.check_buffer
   end
 end
+
+task :print_test do |t|
+  b = Microprinter.new(1)
+  while true
+    b.check_buffer
+  end
+end

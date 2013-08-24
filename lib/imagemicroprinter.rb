@@ -101,6 +101,7 @@ class ImageMicroprinter < MicroprinterSequence
     self.feed
     # image.display # display on screen (requires X11. Useful for debugging)
     image.destroy! # tidy up after ourselves
+    return self
   end
 
   def print_image_row(mode, data)
@@ -121,7 +122,7 @@ class ImageMicroprinter < MicroprinterSequence
       end
     end
     
-    puts bytes.inspect
+    
     print_image_bytes(mode, bytes)
   end
 end
