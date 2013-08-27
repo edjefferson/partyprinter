@@ -42,18 +42,6 @@ class MicroprinterSequence < Array
   def initialize
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
   end
-
-  def big_sleep
-    push "BS"
-  end
-
-  def little_sleep
-    push "LS"
-  end
-
-  def flush
-    push "FL"
-  end
   
   def print(text)
     text.split(//).each {|char| push char.ord}
@@ -182,6 +170,8 @@ class MicroprinterSequence < Array
     density = 1
     density = 3 if (mode > 1) 
     datalength = data.length / density
+    push COMMAND
+    push COMMAND_IMAGE
     push COMMAND
     push COMMAND_IMAGE
     push mode 
