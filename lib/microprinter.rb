@@ -60,7 +60,7 @@ class Microprinter
           @sp.flush
           sleep 0.01
         end
-      end
+      
     end
   end
 

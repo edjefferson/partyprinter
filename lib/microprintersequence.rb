@@ -1,10 +1,3 @@
-
-
-
-#make microprintersequence an active record object that stores an array of strings
-
-#make microprinter send array, then pause, then next array, etc, eliminating need to specify flush and delay
-
 require 'pg'
 
 class MicroprinterSequence < Array
@@ -51,15 +44,12 @@ class MicroprinterSequence < Array
   end
 
   def big_sleep
-    #push("9999")
   end
 
   def little_sleep
-    #push("999")
   end
 
   def flush
-    #push("99999")
   end
   
   def print(text)
