@@ -1,3 +1,10 @@
+
+
+
+#make microprintersequence an active record object that stores an array of strings
+
+#make microprinter send array, then pause, then next array, etc, eliminating need to specify flush and delay
+
 require 'pg'
 
 class MicroprinterSequence < Array
@@ -44,19 +51,19 @@ class MicroprinterSequence < Array
   end
 
   def big_sleep
-    push(9999)
+    #push("9999")
   end
 
   def little_sleep
-    push(999)
+    #push("999")
   end
 
   def flush
-    push(99999)
+    #push("99999")
   end
   
   def print(text)
-    text.bytes.to_a.each {|char| push char }
+    push text
   end
     
 
@@ -200,7 +207,7 @@ class MicroprinterSequence < Array
     density = 1
     density = 3 if (mode > 1) 
     datalength = data.length / density
-    push COMMAND_BARCODE_TEXTPOSITION
+    push COMMAND
     push COMMAND_IMAGE
     push mode 
     push datalength%256
@@ -219,13 +226,12 @@ class MicroprinterSequence < Array
 
   
   def write_sequence_to_database
-    sequence = self.map!{|step| step.to_i}.join(",")
 
-    puts sequence
-    
+
+    puts self.join
     puts "hello"
   
-    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{sequence}}',DEFAULT);"
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{self.join}}',DEFAULT);"
   end
 
 
