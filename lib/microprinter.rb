@@ -55,7 +55,7 @@ class Microprinter
   
   def print(sequence)
     sequence[1..-2].split(",").each do |step|
-        step.split each do |instruction|
+        step.split.each do |instruction|
           @sp.putc instruction
           @sp.flush
           sleep 0.01
