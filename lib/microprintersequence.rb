@@ -224,7 +224,7 @@ class MicroprinterSequence < Array
     puts self.join
     puts "hello"
   
-    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{self.join}}',DEFAULT);"
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{self.join(",")}}',DEFAULT);"
   end
 
 
