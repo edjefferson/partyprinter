@@ -60,6 +60,9 @@ class Microprinter
         @sp.rts
       end
       step = instruction.to_i
+      if step == 27
+        sleep 1
+      end
       @sp.putc step
       @sp.flush
       sleep 0.05
