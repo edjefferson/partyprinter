@@ -54,13 +54,21 @@ class Microprinter
 
   
   def print(sequence)
-    sequence[1..-2].split(",").each do |step|
-        step.split.each do |instruction|
-          @sp.putc instruction
-          @sp.flush
-          sleep 0.01
-        end
-      
+    sequence[1..-2].split(",").each do |instruction|
+      step = instruction.to_i
+      if step == "BS"
+        puts "big sleep"
+        sleep 0.01
+      elsif step == "LS"
+        puts "little sleep"
+        sleep 0.01
+      elsif step == "FL"  
+  
+
+        @sp.flush
+      else
+        @sp.putc step
+      end
     end
   end
 

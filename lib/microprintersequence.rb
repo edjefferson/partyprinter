@@ -44,12 +44,15 @@ class MicroprinterSequence < Array
   end
 
   def big_sleep
+    push "BS"
   end
 
   def little_sleep
+    push "LS"
   end
 
   def flush
+    push "FL"
   end
   
   def print(text)
