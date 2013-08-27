@@ -63,7 +63,7 @@ class Microprinter
       elsif step == "FL"  
         @sp.flush
       else
-        @sp.print step
+        @sp.putc step.to_i
       end
     end
   end

@@ -56,7 +56,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    push text
+    text.split.each {|char| push char}
   end
     
 
