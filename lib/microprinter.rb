@@ -30,6 +30,7 @@ class Microprinter
       parity = SerialPort::NONE
       @sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
       @sp.sync = true
+      @sp.flow_control = 1
       sleep(2)
     else
       @sp = SerialPortTest.new
@@ -55,8 +56,11 @@ class Microprinter
   
   def print(sequence)
     sequence[1..-2].split(",").each do |instruction|
-      step = instruction
-      @sp.putc step.to_i
+      until @sp.rts == 1
+        @sp.rts
+      end
+      step = instruction.to_i
+      @sp.putc step
       @sp.flush
       sleep 0.05
     end

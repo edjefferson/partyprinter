@@ -31,7 +31,7 @@ class Tweet < ActiveRecord::Base
     
     puts self.text
     @printer.print_line word_wrap(self.text, line_width: 46)
-    @printer.print_line ""
+    @printer.print "\n"
     
     self.images.each do |url|
       puts url
