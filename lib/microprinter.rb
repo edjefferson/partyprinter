@@ -56,15 +56,9 @@ class Microprinter
   def print(sequence)
     sequence[1..-2].split(",").each do |instruction|
       step = instruction
-      if step == "BS"
-        sleep 0.01
-      elsif step == "LS"
-        sleep 0.002
-      elsif step == "FL"  
-        @sp.flush
-      else
-        @sp.putc step.to_i
-      end
+      @sp.putc step.to_i
+      @sp.flush
+      sleep 0.05
     end
   end
 

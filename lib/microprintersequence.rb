@@ -56,7 +56,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    text.split.each {|char| push char}
+    text.split(//).each {|char| push char.ord}
   end
     
 
@@ -76,7 +76,6 @@ class MicroprinterSequence < Array
     push COMMAND
     push PRINT_MODE
     push i
-    flush
   end
   
 
@@ -92,8 +91,6 @@ class MicroprinterSequence < Array
     push COMMAND
     push DOUBLEPRINT 
     push i
-    flush
-    big_sleep
   end 
 
   def set_underline_on 
@@ -108,14 +105,10 @@ class MicroprinterSequence < Array
     push COMMAND
     push UNDERLINE
     push i
-    flush
-    big_sleep
   end
 
   def print_line(text)
     print("#{text}\n")
-    flush
-    big_sleep
   end
 
   def feed_and_cut # utility method. 
@@ -134,21 +127,20 @@ class MicroprinterSequence < Array
     push 10
     push 10
     push 10
-    flush
-    big_sleep
+    push 10
+    push 10
+    push 10
+    push 10
   end
 
   def cut()
     push COMMAND
     push FULLCUT
-    big_sleep
   end
 
   def partial_cut()
     push COMMAND
     push PARTIALCUT
-    flush
-    big_sleep
   end
 
   def print_barcode(barcode, barcode_mode = BARCODE_MODE_CODE39)
@@ -157,8 +149,6 @@ class MicroprinterSequence < Array
     push barcode_mode 
     print barcode
     push 0x00
-    flush
-    big_sleep
   end
 
   def set_barcode_height(height) # in dots. default = 162
@@ -166,16 +156,12 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE
     push COMMAND_BARCODE_HEIGHT
     push height.to_i
-    flush
-    big_sleep
   end
 
   def set_barcode_width(width) 
     push COMMAND_BARCODE
     push COMMAND_BARCODE_WIDTH
     push width
-    flush
-    big_sleep
   end
 
   def set_barcode_text_position(position) 
@@ -184,15 +170,11 @@ class MicroprinterSequence < Array
     push COMMAND_BARCODE 
     push COMMAND_BARCODE_TEXTPOSITION
     push position
-    flush
-    big_sleep
   end
   
   def set_linefeed_rate(rate) #def = 22?
     push COMMAND 
     push FEED_RATE 
-    flush
-    big_sleep
   end
 
   def print_image_bytes(mode, data) # mode = 0, 1, 20, 21
@@ -205,23 +187,14 @@ class MicroprinterSequence < Array
     push mode 
     push datalength%256
     push datalength/256
-    puts self.length
     data.each do |x|
       push x
-      flush
-      little_sleep
     end
-    flush
-    puts self.length
-    big_sleep
   end
 
 
   
   def write_sequence_to_database
-
-
-    puts self.join
     puts "hello"
   
     @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{self.join(",")}}',DEFAULT);"
