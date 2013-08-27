@@ -59,7 +59,7 @@ class Microprinter
       if step == "BS"
         sleep 0.01
       elsif step == "LS"
-        sleep 0.01
+        sleep 0.002
       elsif step == "FL"  
         @sp.flush
       else
