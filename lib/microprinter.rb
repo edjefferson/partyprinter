@@ -60,7 +60,7 @@ class Microprinter
     instructions.each_with_index do |step, index|
       if step == 27
         nextstep = instructions[index + 1]
-        if nextstep = 45
+        if nextstep == 45
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
@@ -77,3 +77,4 @@ class Microprinter
   end
 
 end
+p
