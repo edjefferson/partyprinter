@@ -61,7 +61,10 @@ class Microprinter
   def print(sequence)
       if sequence[0].ord == 25 && sequence [1].ord == 42
       @sp.print 25.chr + 42.chr
-      sequence.split(//)[2..-1] {|x| @sp.putc x sleep 0.002}
+      sequence.split(//)[2..-1].each do |x|
+        @sp.putc x
+        sleep 0.002
+      end
       sleep 0.002
     else
       @sp.print sequence
