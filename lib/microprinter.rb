@@ -67,7 +67,7 @@ class Microprinter
           @sp.putc instructions[index + 3]
           @sp.putc instructions[index + 4]
         end
-      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].include? 45
+      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].include?(45)
         nil
       else
         @sp.putc step
