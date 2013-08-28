@@ -1,4 +1,4 @@
-@sp.putc 0x33require 'serialport'
+require 'serialport'
 
 port_str = "/dev/ttyAMA0"
     @port_str = port_str 
@@ -26,6 +26,7 @@ while true
   elsif i == "feedrate"
     @sp.putc 0x33
   elsif i == "cut"
+    @sp.putc 0x1B
     @sp.putc 0x69
   else
     @sp.putc i
