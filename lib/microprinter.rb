@@ -74,7 +74,7 @@ class Microprinter
           @sp.putc step
           @sp.putc nextstep
         end
-      elsif [27,45,51,71].include?instructions[index - 1]) || instructions[(index - 2)..(index -4)].include?(42)
+      elsif [27,45,51,71].include?(instructions[index - 1]) || instructions[(index - 2)..(index -4)].include?(42)
         nil
       else
         @sp.putc step
@@ -84,4 +84,3 @@ class Microprinter
   end
 
 end
-p
