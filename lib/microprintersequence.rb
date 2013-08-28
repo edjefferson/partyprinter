@@ -161,7 +161,8 @@ class MicroprinterSequence < Array
   
   def set_linefeed_rate(rate) #def = 22?
     push COMMAND 
-    push FEED_RATE 
+    push FEED_RATE
+    push rate 
   end
 
   def print_image_bytes(mode, data) # mode = 0, 1, 20, 21

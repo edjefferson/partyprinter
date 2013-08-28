@@ -66,8 +66,15 @@ class Microprinter
           @sp.putc instructions[index + 2]
           @sp.putc instructions[index + 3]
           @sp.putc instructions[index + 4]
+        elsif [45,51,71].include?(nextstep)
+          @sp.putc step
+          @sp.putc nextstep
+          @sp.putc instructions[index + 2]
+        else
+          @sp.putc step
+          @sp.putc nextstep
         end
-      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].include?(42)
+      elsif [27,45,51,71].include?instructions[index - 1]) || instructions[(index - 2)..(index -4)].include?(42)
         nil
       else
         @sp.putc step
