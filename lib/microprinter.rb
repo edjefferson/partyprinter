@@ -45,6 +45,7 @@ class Microprinter
     unprinted_sequences = @con.query "SELECT * FROM sequences WHERE printed = 0"
 
     unprinted_sequences.each do |sequence|
+      puts "printing sequence"
       arrays = sequence["sequence"].split(";").map{|x| x.split(",")}
       arrays.each do |x|
         x.map! { |y| y.to_i.chr(Encoding::ISO_8859_1)}
@@ -59,7 +60,7 @@ class Microprinter
 
   
   def print(sequence)
-    puts "printing sequence"
+    
       first_step = sequence[0].ord
       second_step = 1
       if sequence.length > 1
