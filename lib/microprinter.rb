@@ -20,7 +20,7 @@ end
 
 class Microprinter
 
-  def initialize(test = 0, port_str = "/dev/ttyACM0")
+  def initialize(test = 0, port_str = "/dev/ttyAMA0")
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
     if test == 0
       @port_str = port_str 
@@ -59,14 +59,14 @@ class Microprinter
       step = instruction.to_i
       if step == 27
         @sp.putc step
-        sleep 0.02
+        sleep 1
       elsif step == 45 && step[index - 1] == 27
         @sp.putc step
-        sleep 0.02
+        sleep 1
       else
         @sp.putc step
         @sp.flush
-        sleep 0.003
+        sleep 1
       end
     end
   end

@@ -38,6 +38,8 @@ class MicroprinterSequence < Array
   BARCODE_MODE_CODE128 = 0x07
 
   NEW_LINE = 0x0A
+
+
   
   def initialize
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
@@ -110,15 +112,12 @@ class MicroprinterSequence < Array
     feed_and_cut
   end
 
-  def feed() 
-    push 10
-    push 10
-    push 10
-    push 10
-    push 10
-    push 10
-    push 10
-    push 10
+  def feed()
+    push COMMAND
+    push NEW_LINE
+    push COMMAND
+    push NEW_LINE
+
   end
 
   def cut()
