@@ -59,7 +59,7 @@ class Microprinter
 
     instructions.each_with_index do |step, index|
       if step == 27
-        command length = 2
+        command_length = 2
         nextstep = instructions[index + 1]
         if nextstep == 105
           @sp.putc 0x1B
