@@ -59,6 +59,7 @@ class Microprinter
 
   
   def print(sequence)
+      puts "poop patrol"
       if sequence[0].ord == 25 && sequence[1].ord == 42
       puts "image sequence"
       @sp.print 25.chr + 42.chr
