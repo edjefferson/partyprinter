@@ -46,7 +46,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    text.split(//).each {|char| push char.ord}
+    push text
   end
     
 
@@ -166,18 +166,20 @@ class MicroprinterSequence < Array
   end
 
   def print_image_bytes(mode, data) # mode = 0, 1, 20, 21
+    commandstring = ""
     puts "print image"
     density = 1
     density = 3 if (mode > 1) 
     datalength = data.length / density
-    push COMMAND
-    push COMMAND_IMAGE
-    push mode 
-    push datalength%256
-    push datalength/256
+    commandstring << COMMAND
+    commandstring << COMMAND_IMAGE
+    commandstring << mode 
+    commandstring << datalength%256
+    commandstring << datalength/256
     data.each do |x|
-      push x
+      commandstring << x
     end
+    push commandstring
   end
 
 
