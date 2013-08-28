@@ -54,11 +54,14 @@ class Microprinter
 
   
   def print(sequence)
-    @sp.break 1
     instructions = sequence[1..-2].split(",").map {|x| x.to_i}
 
     instructions.each do |step|
+      if step == 27
+        sleep 0.1
+      end  
       @sp.putc step
+      sleep 0.02
     end
   end
 
