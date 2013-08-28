@@ -54,7 +54,6 @@ class Microprinter
 
   
   def print(sequence)
-    instructions = sequence[1..-2].split(",").map {|x| x.to_i}
 
     instructions.each do |step|
       @sp.print step

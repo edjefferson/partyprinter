@@ -46,7 +46,7 @@ class MicroprinterSequence < Array
   end
   
   def print(text)
-    push text
+    push text.split(//).map{|x| x.ord}.join(",")
   end
     
 
@@ -166,7 +166,7 @@ class MicroprinterSequence < Array
   end
 
   def print_image_bytes(mode, data) # mode = 0, 1, 20, 21
-    commandstring = ""
+    commandstring = []
     puts "print image"
     density = 1
     density = 3 if (mode > 1) 
@@ -179,7 +179,7 @@ class MicroprinterSequence < Array
     data.each do |x|
       commandstring << x
     end
-    push commandstring
+    push commandstring.map{|x| x.ord}.join(",")
   end
 
 
@@ -187,7 +187,7 @@ class MicroprinterSequence < Array
   def write_sequence_to_database
     puts "hello"
   
-    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'{#{self.join(",")}}',DEFAULT);"
+    @con.query "INSERT INTO sequences (id, sequence, printed) VALUES (DEFAULT,'#{self.join(";")}',DEFAULT);"
   end
 
 
