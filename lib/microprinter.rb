@@ -76,7 +76,6 @@ class Microprinter
           @sp.break 1
           @sp.putc step
           @sp.putc nextstep
-          @sp.flush
           sleep 0.01
         end
       elsif [27,45,51,71].include?(instructions[index - 1]) || instructions[(index - 2)..(index -4)].include?(42)
