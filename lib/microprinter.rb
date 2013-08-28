@@ -61,16 +61,19 @@ class Microprinter
       if step == 27
         nextstep = instructions[index + 1]
         if nextstep == 42
+          sleep 0.1
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
           @sp.putc instructions[index + 3]
           @sp.putc instructions[index + 4]
         elsif [45,51,71].include?(nextstep)
+          sleep 0.1
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
         else
+          sleep 0.1
           @sp.putc step
           @sp.putc nextstep
         end
