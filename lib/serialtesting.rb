@@ -1,6 +1,6 @@
 require 'serialport'
 
-port_str = "/dev/ttyAMA0"
+port_str = "/dev/ttyACM0"
     @port_str = port_str 
     baud_rate = 9600
     data_bits = 8
