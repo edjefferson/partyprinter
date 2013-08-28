@@ -58,10 +58,10 @@ class Microprinter
 
     instructions.each do |step|
       if step == 27
-        sleep 0.1
+        sleep 0.01
       end  
       @sp.putc step
-      sleep 0.02
+      sleep 0.002
     end
   end
 
