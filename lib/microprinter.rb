@@ -60,7 +60,7 @@ class Microprinter
   
   def print(sequence)
       sequence.each do |y|
-        puts y.ord
+        print y.ord
       end
       if sequence[0].ord == 25 && sequence [1].ord == 42
       puts "image sequence"
