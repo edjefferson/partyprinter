@@ -60,9 +60,9 @@ class Microprinter
   
   def print(sequence)
       puts "poop patrol"
-      if sequence[0].ord == 25 && sequence[1].ord == 42
+      if sequence[0].ord == 27 && sequence[1].ord == 42
       puts "image sequence"
-      @sp.print 25.chr + 42.chr
+      @sp.print 27.chr + 42.chr
       sequence.split(//)[2..-1].each do |x|
         @sp.putc x
         sleep 0.002
