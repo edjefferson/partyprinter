@@ -59,7 +59,7 @@ class Microprinter
 
   
   def print(sequence)
-      @sp.print step
+      @sp.print sequence
       sleep 0.002
     
   end
