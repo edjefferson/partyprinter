@@ -20,7 +20,7 @@ end
 
 class Microprinter
 
-  def initialize(test = 0, port_str = "/dev/ttyAMA0")
+  def initialize(test = 0, port_str = "/dev/ttyACM0")
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
     if test == 0
       @port_str = port_str 
@@ -60,14 +60,14 @@ class Microprinter
     instructions.each_with_index do |step, index|
       if step == 27
         nextstep = instructions[index + 1]
-        if nextstep == 45
+        if nextstep == 42
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
           @sp.putc instructions[index + 3]
           @sp.putc instructions[index + 4]
         end
-      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].include?(45)
+      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].include?(42)
         nil
       else
         @sp.putc step
