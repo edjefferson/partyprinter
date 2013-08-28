@@ -45,8 +45,13 @@ class Microprinter
     unprinted_sequences = @con.query "SELECT * FROM sequences WHERE printed = 0"
 
     unprinted_sequences.each do |sequence|
-      puts sequence
-      print(sequence["sequence"])
+      arrays = sequence["sequence"].split(";").map{|x| x.split(",")}
+      arrays.each do |x|
+        x.map! { |y| y.to_i.chr}
+      end
+      arrays.map! { |z| z.join }
+
+      arrays.each {|x| print x}
       @con.query "UPDATE sequences SET printed = 1 WHERE id = #{sequence['id']}"
     end
   end
@@ -54,11 +59,9 @@ class Microprinter
 
   
   def print(sequence)
-
-    instructions.each do |step|
       @sp.print step
       sleep 0.002
-    end
+    
   end
 
 end
