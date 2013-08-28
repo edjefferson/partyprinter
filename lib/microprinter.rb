@@ -47,7 +47,7 @@ class Microprinter
     unprinted_sequences.each do |sequence|
       arrays = sequence["sequence"].split(";").map{|x| x.split(",")}
       arrays.each do |x|
-        x.map! { |y| y.to_i.chr(Encoding::UTF_8)}
+        x.map! { |y| y.to_i.chr(Encoding::ISO_8859_1)}
       end
       arrays.map! { |z| z.join }
 
