@@ -57,12 +57,9 @@ class Microprinter
     instructions = sequence[1..-2].split(",").map {|x| x.to_i}
 
     instructions.each do |step|
-      if step == 27
-        puts step.class
-        sleep 0.01
-      end  
+      sleep 0.001
       @sp.putc step
-      sleep 0.002
+      sleep 0.001
     end
   end
 
