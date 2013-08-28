@@ -62,8 +62,10 @@ class TweetReader
 #get needed info from tweet
 
   def write_to_database(tweettype,tweet)
-    tweettype.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => get_images_from(tweet), :printed => "0")
-    tweettype.find(tweet.id).print
+    Tweet.create(:id => tweet.id.to_s, :text => tweet.text.gsub(/^@partyprinter /,""), :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :images => get_images_from(tweet), :printed => "0")
+    tweettype.create(:id => tweet.id.to_s)
+    tweettype.find(tweet.id.to_s).process
+    tweettype.find(tweet.id.to_s).print
   end
 
     def get_images_from(tweet)
