@@ -24,7 +24,7 @@ class Microprinter
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
     if test == 0
       @port_str = port_str 
-      baud_rate = 19200
+      baud_rate = 9600
       data_bits = 8
       stop_bits = 1
       parity = SerialPort::NONE
@@ -57,6 +57,9 @@ class Microprinter
     instructions = sequence[1..-2].split(",").map {|x| x.to_i}
 
     instructions.each do |step|
+      if step == 27
+        sleep 0.01
+      end  
       @sp.putc step
       sleep 0.002
     end
