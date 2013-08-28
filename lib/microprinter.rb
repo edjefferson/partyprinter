@@ -55,18 +55,23 @@ class Microprinter
 
   
   def print(sequence)
-    sequence[1..-2].split(",").each_with_index do |instruction, index|
-      step = instruction.to_i
+    instructions = sequence[1..-2].split(",").map {|x| x.to_i}
+
+    instructions.each_with_index do |step, index|
       if step == 27
-        @sp.putc step
-        sleep 1
-      elsif step == 45 && step[index - 1] == 27
-        @sp.putc step
-        sleep 1
+        nextstep = instructions[index + 1]
+        if nextstep = 45
+          @sp.putc step
+          @sp.putc nextstep
+          @sp.putc instructions[index + 2]
+          @sp.putc instructions[index + 3]
+          @sp.putc instructions[index + 4]
+        end
+      elsif instructions[index - 1] == 27 || instructions[(index - 2)..(index -4)].inc? 45
+        nil
       else
         @sp.putc step
-        @sp.flush
-        sleep 1
+        sleep 0.005
       end
     end
   end

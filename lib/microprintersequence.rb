@@ -171,8 +171,6 @@ class MicroprinterSequence < Array
     datalength = data.length / density
     push COMMAND
     push COMMAND_IMAGE
-    push COMMAND
-    push COMMAND_IMAGE
     push mode 
     push datalength%256
     push datalength/256
