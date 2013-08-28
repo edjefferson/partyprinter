@@ -20,6 +20,7 @@ while true
   if i == "cmd"
     @sp.putc 0x1B
   elsif i == "img"
+    @sp.putc 0x1B
     @sp.putc 0x2A
   elsif i == "feed"
     @sp.putc 0x0A
@@ -28,7 +29,10 @@ while true
   elsif i == "cut"
     @sp.putc 0x1B
     @sp.putc 0x69
+  elsif i == "cut"
+    @sp.putc 0x1B
+    @sp.putc 0x69
   else
-    @sp.putc i
+    @sp.print i
   end
 end
