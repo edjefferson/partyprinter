@@ -113,9 +113,8 @@ class MicroprinterSequence < Array
   end
 
   def feed()
-    push COMMAND
     push NEW_LINE
-    push COMMAND
+    push NEW_LINE
     push NEW_LINE
 
   end

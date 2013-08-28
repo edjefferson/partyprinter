@@ -47,7 +47,7 @@ class Microprinter
     unprinted_sequences.each do |sequence|
       arrays = sequence["sequence"].split(";").map{|x| x.split(",")}
       arrays.each do |x|
-        x.map! { |y| y.to_i.chr}
+        x.map! { |y| y.to_i.chr(Encoding::ASCII)}
       end
       arrays.map! { |z| z.join }
 
@@ -59,20 +59,18 @@ class Microprinter
 
   
   def print(sequence)
-      puts "poop patrol"
+    puts "printing sequence"
       first_step = sequence[0].ord
       second_step = 1
       if sequence.length > 1
         second_step = sequence[1].ord
       end
       if first_step == 27 && second_step == 42
-      puts "image sequence"
       @sp.print 27.chr + 42.chr
       sequence.split(//)[2..-1].each do |x|
         @sp.putc x
         sleep 0.002
       end
-      sleep 0.002
     else
       @sp.print sequence
       sleep 0.002

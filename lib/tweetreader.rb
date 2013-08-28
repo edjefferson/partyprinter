@@ -97,7 +97,7 @@ class TweetReader
   end
 
   def fetch_tweets
-    get_recent_x_replies(3).each do |tweet|
+    get_recent_x_replies(1).each do |tweet|
       check_and_store(tweet)
     end
   end
