@@ -73,7 +73,7 @@ class Microprinter
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
         else
-          sleep 0.01
+          @sp.break 1
           @sp.putc step
           @sp.putc nextstep
           @sp.flush
