@@ -48,7 +48,7 @@ class Microprinter
       puts "printing sequence"
       arrays = sequence["sequence"].split(";").map{|x| x.split(",")}
       arrays.each do |x|
-        x.map! { |y| y.to_i.chr(Encoding::ISO_8859_1)}
+        x.map! { |y| y.to_i.chr}
       end
       arrays.map! { |z| z.join }
 
@@ -60,6 +60,7 @@ class Microprinter
 
   
   def print(sequence)
+
     
       first_step = sequence[0].ord
       second_step = 1
@@ -73,6 +74,7 @@ class Microprinter
         sleep 0.002
       end
     else
+      sequence.gsub!("<ATSIGN>","@")
       @sp.print sequence
       sleep 0.002
     end

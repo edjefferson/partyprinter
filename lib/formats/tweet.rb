@@ -22,7 +22,7 @@ class Tweet < ActiveRecord::Base
     @printer.set_underline_on
     @printer.set_font_weight_bold
 
-    puts "@#{self.screen_name} (#{self.name}) says:"
+    puts "ATSIGN#{self.screen_name} (#{self.name}) says:"
     @printer.print_line "@#{self.screen_name} (#{self.name}) says:"
     @printer.print_line ""
 
