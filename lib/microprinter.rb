@@ -61,7 +61,10 @@ class Microprinter
   def print(sequence)
       puts "poop patrol"
       first_step = sequence[0].ord
-      second_step = { sequence.length > 1 ? sequence[1].ord : nil}
+      second_step = 1
+      if sequence.length > 1
+        second_step = sequence[1].ord
+      end
       if first_step == 27 && second_step == 42
       puts "image sequence"
       @sp.print 27.chr + 42.chr
