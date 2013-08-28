@@ -60,29 +60,28 @@ class Microprinter
     instructions.each_with_index do |step, index|
       if step == 27
         nextstep = instructions[index + 1]
-        if nextstep == 42
-          sleep 0.01
+        if nextstep == 105
+          @sp.putc 0x1B
+          @sp.putc 0x69
+        elsif nextstep == 42
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
           @sp.putc instructions[index + 3]
           @sp.putc instructions[index + 4]
         elsif [45,51,71].include?(nextstep)
-          sleep 0.01
           @sp.putc step
           @sp.putc nextstep
           @sp.putc instructions[index + 2]
         else
-          @sp.break 1
           @sp.putc step
           @sp.putc nextstep
-          sleep 0.01
         end
       elsif [27,45,51,71].include?(instructions[index - 1]) || instructions[(index - 2)..(index -4)].include?(42)
         nil
       else
         @sp.putc step
-        sleep 0.005
+        sleep 0.002
       end
     end
   end
