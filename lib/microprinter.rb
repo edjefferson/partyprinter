@@ -20,7 +20,7 @@ end
 
 class Microprinter
 
-  def initialize(test = 0, port_str = "/dev/ttyACM0")
+  def initialize(test = 0, port_str = "/dev/ttyAMA0")
     @con = PG.connect ENV['HOST'],"5432","","",ENV['DB'],ENV['USER'],ENV['PASSWORD']
     if test == 0
       @port_str = port_str 
